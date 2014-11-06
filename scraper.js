@@ -7,7 +7,7 @@ var app     = express();
 //TODO make some constants or functions to return strings
 
 app.get('/scrape', function(req, res){
-    // Let's scrape Anchorman 2
+    // product url to scrape
     url = 'http://www.amazon.com/dp/B007JR532M/ref=cm_sw_su_dp';
 
     request(url, function(error, response, html){
