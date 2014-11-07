@@ -7,8 +7,8 @@ var app     = express();
 //TODO make some constants or functions to return strings
 
 app.get('/scrape', function(req, res){
-    // product url to scrape
-    url = 'http://www.amazon.com/dp/B007JR532M/ref=cm_sw_su_dp';
+    // p(roduct)url to scrape
+    url = req.param('purl');
 
     request(url, function(error, response, html){
         if(!error){
