@@ -1,10 +1,8 @@
 var express = require('express');
-var fs = require('fs');
+var fs      = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var app     = express();
-
-//TODO make some constants or functions to return strings
 
 app.get('/scrape', function(req, res){
     // p(roduct)url to scrape
@@ -14,71 +12,69 @@ app.get('/scrape', function(req, res){
         if(!error){
             var $ = cheerio.load(html);
 
-            var title, price, rating, brand, inStock;
-            var desc = [];
             var json = {
-                title : "",
-                price : "",
-                rating : "",
-                desc : [],
-                brand : "",
+                title   : "",
+                price   : "",
+                rating  : "",
+                desc    : [],
+                brand   : "",
                 inStock : ""
             };
             
             // get title
             $('#btAsinTitle').filter(function(){
-                var data = $(this);
-                title = data.text();
-                json.title = title;
+                json.title = $(this).text();
             })
             
             // get price
             $('#actualPriceValue').filter(function(){
-                var data = $(this);
-                price = parseFloat(data.find('b').text().substring(1));
-                json.price = price;
+                var priceDOM = $(this).find('b');
+                // get rid of '$'
+                json.price = parseFloat(priceDOM.text().substring(1));
             })
             
             // get avg rating
             $('.crAvgStars').first().filter(function(){
-                var data = $(this);
-                data = data.children().first()
+                var custReviewsSpan = $(this);
+                var reviewStarsTitle = custReviewsSpan
+                        .children().first()
                         .children().first()
                         .children().first()
                         .attr('title');
-                rating = parseFloat(data.substring(0,data.indexOf(' ')));
-                json.rating = rating;
+                
+                // get number of stars from title
+                json.rating = parseFloat(reviewStarsTitle.substring(0, reviewStarsTitle.indexOf(' ')));
             })
             
             // get description
             $('#feature-bullets-atf').filter(function(){
-                var data = $(this);
-                var bullets = data.children().first()
+                var bulletText, desc = [];
+                var bullets = $(this).children().first()
                         .children().first()
                         .children().first()
                         .children().first()
                         .children().first()
                         .children();
 
+                // get text from each bullet
                 bullets.each(function(i){
-                    var bulletText = $(this).children().first().text();
+                    bulletText = $(this).children().first().text();
                     desc = desc.concat(bulletText);
                 })
-
+                
                 json.desc = desc;
             })
 
             // get brand
             $('#product-title_feature_div').filter(function(){
-                var data = $(this);
-                brand = data.children().first().find('span').children().first().text();
+                brand = $(this).children().first().find('span').children().first().text();
                 json.brand = brand;
             })
             
             // get stock status
             $('#availability_feature_div').filter(function(){
-                var data = $(this);
-                inStock = (data.children().first().children().first().attr('class') == 'availGreen');
+                // if class is 'availGreen' its in stock
+                inStock = ($(this).children().first().children().first().attr('class') == 'availGreen');
                 json.inStock = inStock;
             })
         }
