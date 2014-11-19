@@ -1,12 +1,18 @@
 {
-  "name"         : "amazon_product_scraper",
-  "version"      : "0.1",
-  "description"  : "Scrapes amazon produt page for price and other info.",
-  "main"         : "scraper.js",
-  "author"       : "MacKinley Trudeau",
-  "dependencies" : {
-    "express"    : "latest",
-    "request"    : "latest",
-    "cheerio"    : "latest"
+  "name": "amazon_product_scraper",
+  "version": "0.1.0",
+  "description": "Scrapes amazon produt page for price and other info.",
+  "main": "scraper.js",
+  "author": "MacKinley Trudeau",
+  "dependencies": {
+    "request": "latest",
+    "cheerio": "latest"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1"
+  },
+  "scripts": {
+    "test": "make test"
   }
 }
