@@ -4,7 +4,9 @@ var fs      = require('fs'),
 
 module.exports = {
     scrape: function(url, callback){
-        var json = {
+
+        // TODO call json factory to create this
+        var productJson = {
             success : false,
             title   : "",
             price   : "",
@@ -13,21 +15,23 @@ module.exports = {
             brand   : "",
             inStock : ""
         };
-
+        
+        // TODO may break if html doesn't match whats expected
+        //      fix so it just returns empty product json with success = false
         request(url, function(error, response, html){
             if(!error){
                 var $ = cheerio.load(html);
                 
                 // get title
                 $('#btAsinTitle').filter(function(){
-                    json.title = $(this).text();
+                    productJson.title = $(this).text();
                 })
                 
                 // get price
                 $('#actualPriceValue').filter(function(){
                     var priceDOM = $(this).find('b');
                     // get rid of '$'
-                    json.price = parseFloat(priceDOM.text().substring(1));
+                    productJson.price = parseFloat(priceDOM.text().substring(1));
                 })
                 
                 // get avg rating
@@ -40,7 +44,7 @@ module.exports = {
                             .attr('title');
                     
                     // get number of stars from title
-                    json.rating = parseFloat(reviewStarsTitle.substring(0, reviewStarsTitle.indexOf(' ')));
+                    productJson.rating = parseFloat(reviewStarsTitle.substring(0, reviewStarsTitle.indexOf(' ')));
                 })
                 
                 // get description
@@ -59,27 +63,27 @@ module.exports = {
                         desc = desc.concat(bulletText);
                     })
                     
-                    json.desc = desc;
+                    productJson.desc = desc;
                 })
 
                 // get brand
                 $('#product-title_feature_div').filter(function(){
                     brand = $(this).children().first().find('span').children().first().text();
-                    json.brand = brand;
+                    productJson.brand = brand;
                 })
                 
                 // get stock status
                 $('#availability_feature_div').filter(function(){
                     // if class is 'availGreen' its in stock
                     inStock = ($(this).children().first().children().first().attr('class') == 'availGreen');
-                    json.inStock = inStock;
+                    productJson.inStock = inStock;
                 })
 
                 // if a title and price were scraped consider it a success
-                if(json.title != "" && json.price != "")
-                    json.success = true;
+                if(productJson.title != "" && productJson.price != "")
+                    productJson.success = true;
 
-                callback(json);
+                callback(productJson);
             }
         })
     }
