@@ -1,7 +1,7 @@
 {
   "name": "amazon_product_scraper",
   "version": "0.1.0",
-  "description": "Scrapes amazon produt page for price and other info.",
+  "description": "Scrapes amazon product page for price and other info.",
   "main": "scraper.js",
   "author": "MacKinley Trudeau",
   "dependencies": {

@@ -16,8 +16,8 @@ module.exports = {
             inStock : ""
         };
         
-        // TODO may break if html doesn't match whats expected
-        //      fix so it just returns empty product json with success = false
+        // TODO may throw exception if html doesn't match whats expected
+        //      catch and handle accordingly
         request(url, function(error, response, html){
             if(!error){
                 var $ = cheerio.load(html);
@@ -34,19 +34,25 @@ module.exports = {
                     productJson.price = parseFloat(priceDOM.text().substring(1));
                 })
                 
-                // get avg rating
-                $('.crAvgStars').first().filter(function(){
-                    var custReviewsSpan = $(this);
-                    var reviewStarsTitle = custReviewsSpan
-                            .children().first()
-                            .children().first()
-                            .children().first()
-                            .attr('title');
-                    
-                    // get number of stars from title
-                    productJson.rating = parseFloat(reviewStarsTitle.substring(0, reviewStarsTitle.indexOf(' ')));
-                })
-                
+                // try in the event that the product has not been rating yet
+                try {
+                    // get avg rating
+                    $('.crAvgStars').first().filter(function(){
+                        var custReviewsSpan = $(this);
+                        var reviewStarsTitle = custReviewsSpan
+                                .children().first()
+                                .children().first()
+                                .children().first()
+                                .attr('title');
+                        
+                        // get number of stars from title
+                        productJson.rating = parseFloat(reviewStarsTitle.substring(0, reviewStarsTitle.indexOf(' ')));
+                    })
+                } catch(err) {
+                    // if product has never been rating
+                    productJson.rating = -1;
+                }
+
                 // get description
                 $('#feature-bullets-atf').filter(function(){
                     var bulletText, desc = [];
