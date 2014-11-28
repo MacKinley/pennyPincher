@@ -2,7 +2,8 @@ var should = require('chai').should(),
     testScrape = require('../productDiscoverer.js').testScrape;
 
 describe('#discover', function() {
-    // scrape static file to test if the actual data scraped remains consistent
+    // run the testScrape method to make sure code builds & runs
+    // not sure how to test that it will loop properly
     it('run discovery code once', function() {
         testScrape(function(err, productResponse, url){
             if(err){
