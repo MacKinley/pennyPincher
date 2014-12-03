@@ -24,13 +24,15 @@ module.exports = {
     }
 };
 
-
+// attempt to scrape the url
 function tryToScrape(pauseLength, url, callback){
     try{
         scrape(url, function(response){
+            // if product url is found
             if(response.success){
                 callback(false, response, url);
             }
+            // continue to discover either way
             discoveryLoop(pauseLength, callback);
         });
     } catch(err) {
