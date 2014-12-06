@@ -1,44 +1,22 @@
 var scrape = require('../scraper/scraper').scrape;
 
 module.exports = {
+    intervalObj: {},
+
     // call once to continue discovering new products
     discoveryLoop: function(pauseLength, callback){
-        setTimeout(
+        intervalObj = setInterval(
             createProductURL(function(url){
-                tryToScrape(url, pauseLength, callback)
+                scrape(url, callback)
             })
         , pauseLength);
     },
 
-    // for unit tests
-    testScrape: function(callback){
-        createProductURL(function(url){
-            try{
-                scrape(url, function(response){
-                    callback(false, response, url);
-                });
-            } catch(err) {
-                callback(err, {}, url);
-            }
-        });
+    stopDiscovering: function(callback){
+        clearInterval(this.intervalOb);
+        callback();
     }
 };
-
-// attempt to scrape the url
-function tryToScrape(pauseLength, url, callback){
-    try{
-        scrape(url, function(response){
-            // if product url is found
-            if(response.success){
-                callback(false, response, url);
-            }
-            // continue to discover either way
-            discoveryLoop(pauseLength, callback);
-        });
-    } catch(err) {
-        callback(err, {}, url);
-    }
-}
 
 function createProductURL(callback){
     // generate random length of product ID from 1 to 8
@@ -55,7 +33,8 @@ function createProductURL(callback){
             chr = Math.floor(Math.random()*(10)).toString();
         else
             // a random char from A to Z
-            chr = String.fromCharCode(Math.floor(Math.random()*(ASCII_Z-ASCII_A+1)+ASCII_A));
+            chr = String.fromCharCode(Math.floor(
+                        Math.random()*(ASCII_Z-ASCII_A+1)+ASCII_A));
         
         id+=chr;
     }
