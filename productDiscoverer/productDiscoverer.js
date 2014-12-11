@@ -1,20 +1,20 @@
 var scrape = require('../scraper/scraper').scrape;
 
+var invervalObj = {};
 module.exports = {
-    intervalObj: {},
-
     // call once to continue discovering new products
     discoveryLoop: function(pauseLength, callback){
-        intervalObj = setInterval(
+        intervalObj = setInterval(function(){
             createProductURL(function(url){
-                scrape(url, callback)
-            })
-        , pauseLength);
+                scrape(url, callback);
+            });
+        }, pauseLength);
     },
 
     stopDiscovering: function(callback){
-        clearInterval(this.intervalOb);
-        callback();
+        clearInterval(intervalObj);
+        if(callback != null)
+            callback();
     }
 };
 
@@ -35,8 +35,9 @@ function createProductURL(callback){
             // a random char from A to Z
             chr = String.fromCharCode(Math.floor(
                         Math.random()*(ASCII_Z-ASCII_A+1)+ASCII_A));
-        
+
         id+=chr;
     }
     callback('http://amzn.com/B00' + id);
 }
+

@@ -1,21 +1,33 @@
 var should = require('chai').should(),
     discoverer = require('../productDiscoverer.js');
 
-describe('#discover', function() {
-    it('run discovery code once', function() {
-        discoverer.discoveryLoop(5000, function(err, productResponse){
-            discoverer.stopDiscovering();
+describe('#discoverer tests', function() {
+    var product, timesLooped = 0;
+    this.timeout(10000);
+
+    before(function(done){
+        discoverer.discoveryLoop(2000, function(err, productResponse){
             if(!err){
-                productResponse.success.should.be.a('boolean');
-                if(productResponse.success){
-                    productResponse.price.should.be.a('double');
-                    productResponse.title.should.not.equal("");
-                    productResponse.title.should.be.a('string');
-                }
+                timesLooped++;
             } else {
-                console.log(err.message);
-                err.should.equal(false);               
+                throw(err);
+            }
+
+            if(timesLooped >= 3){
+                product = productResponse;
+                discoverer.stopDiscovering(done);
             }
         });
     });
+
+    it('check if discovery loop looped 3 times', function() {
+        timesLooped.should.equal(3);
+        product.success.should.be.a('boolean');
+        if(product.success){
+            product.price.should.be.a('number');
+            product.title.should.not.equal("");
+            product.title.should.be.a('string');
+        }
+    });
 });
+
