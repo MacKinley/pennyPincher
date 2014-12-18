@@ -1,22 +1,32 @@
 var scrape = require('../scraper/scraper').scrape;
 
-var invervalObj = {};
+var timeoutObj = {};
+
 module.exports = {
     // call once to continue discovering new products
     discoveryLoop: function(pauseLength, callback){
-        intervalObj = setInterval(function(){
-            createProductURL(function(url){
-                scrape(url, callback);
-            });
-        }, pauseLength);
+        discoveryHelper(pauseLength, callback);
     },
 
     stopDiscovering: function(callback){
-        clearInterval(intervalObj);
+        clearTimeout(timeoutObj);
         if(callback != null)
             callback();
     }
 };
+
+function discoveryHelper(pauseLength, callback){
+    var recursiveCB = function(err, response){
+        callback(err, response);
+        discoveryHelper(pauseLength, callback);
+    };
+
+    timeoutObj = setTimeout(function(){
+        createProductURL(function(url){
+            scrape(url, recursiveCB);
+        });
+    }, pauseLength);
+}
 
 function createProductURL(callback){
     // generate random length of product ID from 1 to 8
