@@ -1,15 +1,18 @@
 var scrape = require('../scraper/scraper').scrape;
+var Sequence = require('sequence').Sequence,
+    sequence = Sequence.create();
 
-var timeoutObj = {};
+var stopped = true;
 
 module.exports = {
     // call once to continue discovering new products
     discoveryLoop: function(pauseLength, callback){
+        stopped = false;
         discoveryHelper(pauseLength, callback);
     },
 
     stopDiscovering: function(callback){
-        clearTimeout(timeoutObj);
+        stopped = true;
         if(callback != null)
             callback();
     }
@@ -17,15 +20,23 @@ module.exports = {
 
 function discoveryHelper(pauseLength, callback){
     var recursiveCB = function(err, response){
-        callback(err, response);
-        discoveryHelper(pauseLength, callback);
+        sequence
+            .then(function(next){
+                callback(err, response, next);
+            })
+            .then(function(next){
+            discoveryHelper(pauseLength, callback);
+                next();
+            });
     };
 
-    timeoutObj = setTimeout(function(){
-        createProductURL(function(url){
-            scrape(url, recursiveCB);
-        });
-    }, pauseLength);
+    if(!stopped){
+        setTimeout(function(){
+            createProductURL(function(url){
+                scrape(url, recursiveCB);
+            });
+        }, pauseLength);
+    }
 }
 
 function createProductURL(callback){

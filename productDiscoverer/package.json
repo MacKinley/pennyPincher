@@ -4,6 +4,9 @@
   "description": "Continuously finds random amazon product pages.",
   "main": "productDiscoverer.js",
   "author": "MacKinley Trudeau",
+  "dependencies": {
+      "sequence": "*"
+  },
   "devDependencies": {
     "chai": "^1.10.0",
     "mocha": "^2.0.1"

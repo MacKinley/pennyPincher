@@ -6,7 +6,7 @@ describe('#discoverer tests', function() {
     this.timeout(10000);
 
     before(function(done){
-        discoverer.discoveryLoop(2000, function(err, productResponse){
+        discoverer.discoveryLoop(1000, function(err, productResponse, next){
             if(!err){
                 timesLooped++;
             } else {
@@ -17,6 +17,8 @@ describe('#discoverer tests', function() {
                 product = productResponse;
                 discoverer.stopDiscovering(done);
             }
+
+            next();
         });
     });
 
