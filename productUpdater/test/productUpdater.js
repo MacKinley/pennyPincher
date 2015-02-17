@@ -2,54 +2,57 @@ var should = require('chai').should(),
     arrayStream = require('arraystream');
     updater = require('../productUpdater.js');
 
-var timesToUpdate = 2,
-    timesUpdated = 0;
-
 var productsList = [];
 productsList.push(
         {
             "title" : "SanDisk Cruzer 32GB USB 2.0 Flash Drive, "+
                         "Frustration-Free Packaging- SDCZ36-032G-AFFP",
-            "url" : "http://www.cis.umassd.edu/~mtrudeau/pp/test.html",
-            "popularity" : 100
+            "price" : 15.99,
+            "asin" : "B007JR532M"
         }
 );
 
 productsList.push(
         {
             "title" : "Apple Time Capsule 3TB ME182LL/A [NEWEST VERSION]",
-            "url" : "http://www.cis.umassd.edu/~mtrudeau/pp/test2.html"
+            "price" : 139,
+            "asin" : "B0011URFRE"
         }
 );
 
-var numProducts = productsList.length;
+var numProducts = productsList.length,
+    timesUpdated = 0;
 
 describe('#updater tests', function() {
-    this.timeout(60000);
+    this.timeout(30000);
 
     before(function(done){
-        // start updater feeding it fake DB
-        updater.startUpdating(createStream, function(err, product) {
-            if(!err){
-                ++timesUpdated;
-            }else{
-                throw(err);
-            }
-            if(timesUpdated >= numProducts*2){
-                // TODO the .destory() method of the arrayStream module isn't
-                // working properly
-                //updater.stopUpdating();
-                done();
-            }
+        productStream = arrayStream.create(productsList);
+
+        productStream.on('data', function(product, key){
+            productStream.pause();
+
+            updater.update(product.asin, function(err, product){
+                if(!err){
+                    timesUpdated++;
+                    productStream.resume();
+                }else{
+                    throw(err);
+                }
+            });
+        });
+
+        productStream.on('end', function(){
+            done();
+        });
+
+        productStream.on('error', function(err){
+            throw(err);
         });
     });
 
     it('updated the products' , function() {
-        timesUpdated.should.equal(numProducts*2);
+        timesUpdated.should.equal(numProducts);
     });
 });
-
-function createStream(callback) {
-    callback(arrayStream.create(productsList));
-}
 
