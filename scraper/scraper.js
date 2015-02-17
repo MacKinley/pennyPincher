@@ -6,18 +6,15 @@ module.exports = {
     scrape: function (url, callback){
 
     // TODO call json factory to create this
-    var productJson = {
+    var productResponse = {
         success : false,
-        title   : "",
-        price   : "",
-        rating  : "",
-        desc    : [],
-        brand   : "",
-        inStock : "",
-        url     : ""
+        product : {
+            title : "",
+            price : "",
+            asin : ""
+        }
     };
 
-    productJson.url = url;
     request(url, function(err, response, html){
         if(!err){
             try{
@@ -25,76 +22,30 @@ module.exports = {
 
                 // get title
                 $('#btAsinTitle').filter(function(){
-                    productJson.title = $(this).text();
+                    productResponse.product.title = $(this).text();
                 })
 
                 // get price
                 $('#actualPriceValue').filter(function(){
                     var priceDOM = $(this).find('b');
                     // get rid of '$'
-                    productJson.price = parseFloat(priceDOM.text().substring(1));
+                    productResponse.product.price =
+                            parseFloat(priceDOM.text().substring(1));
                 })
 
-                // try in the event that the product has not been rating yet
-                try {
-                    // get avg rating
-                    $('.crAvgStars').first().filter(function(){
-                        var custReviewsSpan = $(this);
-                        var reviewStarsTitle = custReviewsSpan
-                                .children().first()
-                                .children().first()
-                                .children().first()
-                                .attr('title');
+                // get amznKey
+                extractAsin($('link[rel=canonical]').attr('href'), function(asin){
+                    productResponse.product.asin = asin;
+                });
 
-                        // get number of stars from title
-                        productJson.rating = parseFloat(
-                                reviewStarsTitle.substring(0,
-                                    reviewStarsTitle.indexOf(' ')));
-                    })
-                } catch(err) {
-                    // if product has never been rating
-                    productJson.rating = -1;
+                // if a title, asin and price were scraped consider it a success
+                if(productResponse.product.title != "" &&
+                        productResponse.product.price != "" &&
+                        productResponse.product.asin != ""){
+                    productResponse.success = true;
                 }
 
-                // get description
-                $('#feature-bullets-atf').filter(function(){
-                    var bulletText, desc = [];
-                    var bullets = $(this).children().first()
-                            .children().first()
-                            .children().first()
-                            .children().first()
-                            .children().first()
-                            .children();
-
-                    // get text from each bullet
-                    bullets.each(function(i){
-                        bulletText = $(this).children().first().text();
-                        desc = desc.concat(bulletText);
-                    })
-
-                    productJson.desc = desc;
-                })
-
-                // get brand
-                $('#product-title_feature_div').filter(function(){
-                    brand = $(this).children().first()
-                            .find('span').children().first().text();
-                    productJson.brand = brand;
-                })
-
-                // get stock status
-                $('#availability_feature_div').filter(function(){
-                    // if class is 'availGreen' its in stock
-                    inStock = ($(this).children().first().children()
-                                .first().attr('class') == 'availGreen');
-                    productJson.inStock = inStock;
-                })
-
-                // if a title and price were scraped consider it a success
-                if(productJson.title != "" && productJson.price != "")
-                    productJson.success = true;
-
-                callback(null, productJson);
+                callback(null, productResponse);
             }catch(err){
                 callback(err, null);
             }
@@ -104,4 +55,8 @@ module.exports = {
     });
     }
 };
+
+function extractAsin(canonicalUrl, callback){
+        callback(canonicalUrl.substring(canonicalUrl.lastIndexOf('/') + 1));
+}
 

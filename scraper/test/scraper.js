@@ -2,44 +2,59 @@ var should = require('chai').should(),
     scrape = require('../scraper.js').scrape;
 
 describe('scraper', function() {
-    var staticProduct, liveProduct;
-    this.timeout(10000);
+    var staticResponse, liveResponse, didCatchErr;
+    this.timeout(240000);
 
     before(function(done){
         // scrape a live known product
-        scrape('http://amzn.com/B0011URFRE', function(err, productResponse){
+        scrape('http://amzn.com/0316769487', function(err, productResponse){
             if(!err){
-                liveProduct = productResponse;
+                liveResponse = productResponse;
             } else {
                 throw(err);
             }
 
             // scrape a static (not hosted by amazon) product
             scrape('http://www.cis.umassd.edu/~mtrudeau/pp/test.html',
-                    function(err, productResponse){
-                if(!err){
-                    staticProduct = productResponse;
-                } else {
-                    throw(err);
+                function(err, productResponse){
+                    if(!err){
+                        staticResponse = productResponse;
+                    } else {
+                        throw(err);
+                    }
+
+                    // scrape a static broken product page
+                    scrape('http://www.cis.umassd.edu/~mtrudeau/pp/brokenTest.html',
+                        function(err, productResponse){
+                            didCatchErr = (err != null);
+                            done();
+                        }
+                    );
                 }
-                done();
-            });
+            );
         });
     });
 
     // if this fails then we broke the scraper
-    it('scrape local file', function() {
-        staticProduct.success.should.equal(true);
-        staticProduct.price.should.equal(14.99);
-        staticProduct.title.should.equal("SanDisk Cruzer 32GB USB 2.0 Flash Drive, Frustration-Free Packaging- SDCZ36-032G-AFFP");
+    it('scrape our own hosted file', function() {
+        staticResponse.success.should.equal(true);
+        staticResponse.product.asin.should.equal("B007JR532M");
+        staticResponse.product.price.should.equal(14.99);
+        staticResponse.product.title.should.equal("SanDisk Cruzer 32GB USB 2.0 Flash Drive, Frustration-Free Packaging- SDCZ36-032G-AFFP");
     });
 
     // if this fails then the html has changed or product has been removed
     it('scrape live hosted product', function() {
-        liveProduct.success.should.equal(true);
-        liveProduct.price.should.be.a('number');
-        liveProduct.title.should.not.equal("");
-        liveProduct.title.should.be.a('string');
+        liveResponse.success.should.equal(true);
+        staticResponse.product.asin.should.be.a('string');
+        liveResponse.product.price.should.be.a('number');
+        liveResponse.product.title.should.not.equal("");
+        liveResponse.product.title.should.be.a('string');
+    });
+
+    // if this fails then we aren't handling errors scraping could produce
+    it('scrape broken hosted file and caught expection', function() {
+        didCatchErr.should.equal(true);
     });
 });
 
