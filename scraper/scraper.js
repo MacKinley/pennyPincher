@@ -5,13 +5,13 @@ var fs      = require('fs'),
 module.exports = {
     scrape: function (url, callback){
 
-    // TODO call json factory to create this
     var productResponse = {
         success : false,
         product : {
             title : "",
             price : "",
-            asin : ""
+            asin : "",
+            img : ""
         }
     };
 
@@ -21,22 +21,19 @@ module.exports = {
                 var $ = cheerio.load(html);
 
                 // get title
-                $('#btAsinTitle').filter(function(){
-                    productResponse.product.title = $(this).text();
-                })
+                productResponse.product.title = $('#btAsinTitle').text();
 
                 // get price
-                $('#actualPriceValue').filter(function(){
-                    var priceDOM = $(this).find('b');
-                    // get rid of '$'
-                    productResponse.product.price =
-                            parseFloat(priceDOM.text().substring(1));
-                })
+                productResponse.product.price =
+                        parseFloat($('.priceLarge').text().substring(1));
 
                 // get amznKey
                 extractAsin($('link[rel=canonical]').attr('href'), function(asin){
                     productResponse.product.asin = asin;
                 });
+
+                // get img url
+                productResponse.product.img = $('#main-image').attr('src');
 
                 // if a title, asin and price were scraped consider it a success
                 if(productResponse.product.title != "" &&

@@ -34,7 +34,8 @@ describe('scraper', function() {
         staticResponse.success.should.equal(true);
         staticResponse.product.asin.should.equal("B007JR532M");
         staticResponse.product.price.should.equal(14.99);
-        staticResponse.product.title.should.equal("SanDisk Cruzer 32GB USB 2.0 Flash Drive, Frustration-Free Packaging- SDCZ36-032G-AFFP");
+        staticResponse.product.title.should.equal("SanDisk Cruzer 32GB USB " +
+            "2.0 Flash Drive, Frustration-Free Packaging- SDCZ36-032G-AFFP");
     });
 
     // if this fails then the html has changed or product has been removed
