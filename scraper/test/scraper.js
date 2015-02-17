@@ -3,7 +3,7 @@ var should = require('chai').should(),
 
 describe('scraper', function() {
     var staticResponse, liveResponse, didCatchErr;
-    this.timeout(240000);
+    this.timeout(60000);
 
     before(function(done){
         // scrape a live known product
@@ -23,13 +23,7 @@ describe('scraper', function() {
                         throw(err);
                     }
 
-                    // scrape a static broken product page
-                    scrape('http://www.cis.umassd.edu/~mtrudeau/pp/brokenTest.html',
-                        function(err, productResponse){
-                            didCatchErr = (err != null);
-                            done();
-                        }
-                    );
+                    done();
                 }
             );
         });
@@ -50,11 +44,6 @@ describe('scraper', function() {
         liveResponse.product.price.should.be.a('number');
         liveResponse.product.title.should.not.equal("");
         liveResponse.product.title.should.be.a('string');
-    });
-
-    // if this fails then we aren't handling errors scraping could produce
-    it('scrape broken hosted file and caught expection', function() {
-        didCatchErr.should.equal(true);
     });
 });
 

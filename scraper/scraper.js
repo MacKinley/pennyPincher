@@ -57,6 +57,10 @@ module.exports = {
 };
 
 function extractAsin(canonicalUrl, callback){
+    if(typeof canonicalUrl !== 'undefined'){
         callback(canonicalUrl.substring(canonicalUrl.lastIndexOf('/') + 1));
+    }else{
+        callback('');
+    }
 }
 
