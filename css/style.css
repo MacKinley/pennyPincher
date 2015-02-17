@@ -1,0 +1,45 @@
+#header
+{
+	margin: 5 145;
+	width: 1060px;
+	padding: 20px;
+	background: white;
+}
+
+#userOptions 
+{
+	position: absolute;
+	top: 37px;
+	right: 270px;
+}
+
+#subscribe
+{
+	float:right;
+}
+#header h1 { margin: 0; }
+
+#content
+{
+	position: absolute;
+  top: 100px;
+  left: 165px;
+}
+
+#content h2 { margin: 0; }
+
+#footer-container
+{
+	clear: left;
+	color: #fff;
+	background: white;
+}
+
+#footer
+{
+	margin: 0 auto;
+	width: 900px;
+	text-align: right;
+	padding: 20px;
+	height: 1%;
+}
