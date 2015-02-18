@@ -11,7 +11,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 			service: "gmail",
 			auth: {
 
-				user: 'ppincher9@gamil.com',
+				user: 'ppincher9',
 				pass: 'pennypincher9'
 
 				}
@@ -19,9 +19,9 @@ var smtpTransport = require('nodemailer-smtp-transport');
 
 		var mailOption = {
 
-			from: "ppincher9@gamil.com",
+			from: "ppincher9@gmail.com",
 			to: "mcelestin7@gmail.com",
-			Subject: "Penny Pinchers Update on Subscription",
+			subject: "Penny Pinchers Update on Subscription",
 			text: "Check out the new price on this item "
 
 		};
