@@ -19,10 +19,11 @@ var smtpTransport = require('nodemailer-smtp-transport');
 
 		var mailOption = {
 
-			from: "ppincher9@gmail.com",
-			to: "mcelestin7@gmail.com",
+			from: "Penny Pinchers",
+			to: 'Recipient',
+			bcc:'"mcelestin7@gmail.com","mtrudeau@umassd.edu","vwh1987@hotmail.com","eefahey@hotmail.com"',
 			subject: "Penny Pinchers Update on Subscription",
-			text: "Check out the new price on this item "
+			text: "Check out the new price on this item, also this is a test "
 
 		};
 

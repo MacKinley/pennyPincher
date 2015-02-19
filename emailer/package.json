@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "nodemailer": "*",
-    "nodemailer-smtp-transport" : "*"
+    "nodemailer-smtp-transport" : "*",
+    "nodemailer-smtp-pool" : "*"
   },
   "repository": {
     "type": "git",
