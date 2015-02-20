@@ -1,44 +1,71 @@
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link type="text/css" rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-</head>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Product Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
+    </head>
 
-<body style="width: 100%;">
+    <body>
+        <div class="container-fluid"/>
+            <div class="row header row-sm-vert-center">
 
-	<div id="header">
-		<div id="userOptions">
-			<a href="url">Log In</a>
-| 
-			<a href="url">Sign Up</a> 
-		</div>
-		<h1 style="float: left;">
-			PennyPinchers 
-		</h1>
-		<div> 
-			<input style="width: 50%; margin: 10px auto auto; margin-left: 5px;" placeholder="Search..." required="" type="text"> 
-			<input value="Search" type="button"> 
-		</div>
-	</div>
-	
-	<div id="content">
-		<h2>
-			Product Title 
-		</h2>
-			<img id="productImage" src="http://placehold.it/400x280" alt="product image">
-			&nbsp; &nbsp; &nbsp;
-			<img id="priceGraph" src="http://placehold.it/500x280">
-			<br><br> <img id="subscribe" src="http://placehold.it/170x50">
-	</div>
-	<div id="footer-container">
-		<div id="footer">
-			PennyPinchers 2015
-		</div>
-	</div>
+                <div class="col-xs-6 col-sm-3">
+                    <img class="logo" src="images/logo-large.png"/>
+                </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+                <div class="col-xs-6 col-sm-3 col-sm-push-6">
+                    <span class="user-opts">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default">Sign Up</button>
+                            <button type="button" class="btn btn-default"> Login </button>
+                        </div>
+                    </span>
+                </div>
 
+                <!-- search bar -->
+                <div class="col-xs-12 col-sm-6 col-sm-pull-3 search-bar">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Enter product title or URL" type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div> <!-- end header -->
 
-</body>
+            <div class="row">
+                <div class="h4 col-xs-12 col-sm-8 col-sm-push-2">
+                    Product Title that is really long because long titles are cool
+                    and if you don't have one then you have nothing
+                </div>
+            </div>
+            <div class="row row-sm-vert-center">
+                <div class="col-xs-12 col-sm-3 col-sm-push-2">
+                    <img class="full-width" src="http://ecx.images-amazon.com/images/I/61JZGK6L--L._SL1500_.jpg">
+                </div>
+                <div class="col-xs-12 col-sm-5 col-sm-push-2">
+                    <img class="full-width" src="http://placehold.it/400x250">
+                </div>
+            </div>
+
+            <div class="row subscribe-btn">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary hor-center-block" type="button">Subscribe</button>
+                </div>
+            </div>
+
+            <div class="row footer">
+                <div class="col-xs-12">
+                    <span class="hor-center-block">PennyPincher 2015</span>
+                </div>
+            </div>
+        </div> <!-- end container -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+    </body>
+</html>
+
