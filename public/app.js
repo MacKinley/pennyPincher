@@ -1,6 +1,9 @@
 angular.module('app', ['ngRoute', 'productDetail'])
 .config(['$routeProvider',
   function($routeProvider) {
-    // add the routes here
+    $routeProvider.
+		when('/product/:asin', {
+		  templateUrl: 'product-detail/product-detail-partial.html',
+		  controller: 'ProductDetail'
+		  });
   }]);
-
