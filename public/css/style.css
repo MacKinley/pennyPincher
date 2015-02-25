@@ -1,0 +1,86 @@
+@import url('http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+@import url('http://necolas.github.io/normalize.css/3.0.2/normalize.css');
+
+/* xs only */
+@media (max-width: 767px) {
+  .logo {
+    float: left;
+  }
+
+  .user-opts {
+    float: right;
+  }
+
+  .search-bar {
+    margin-top: 10px;
+  }
+}
+
+/* sm and bigger */
+@media (min-width: 768px) { 
+  .row-sm-vert-center {
+    display: flex;
+    align-items: center;
+    display: -webkit-flex; /* Safari */
+    -webkit-align-items: center;
+  }
+
+  .logo{
+    float: right;
+  }
+}
+
+.vert-align {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+
+.remove-margin {
+  margin: 0px;
+}
+
+.flR {
+  float: right;
+}
+
+.flL {
+  float: left;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.hor-center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+  text-align: center;
+}
+
+.header {
+  border-bottom: solid 1px #CCC;
+  margin-top: 15px;
+  padding-bottom: 15px;
+}
+
+.footer {
+  border-top: solid 1px #CCC;
+  padding: 15px 0px;
+  margin-top: 20px;
+}
+
+.logo {
+  max-width: 100%;
+}
+
+.login-opt {
+  width: 50%;
+}
+
+.subscribe-btn {
+  margin-top: 15px;
+}
+
