@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Product Page</title>
+<title>Penny Pincher</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
@@ -40,28 +40,7 @@
     </div>
   </div> <!-- end header -->
 
-  <div class="row"><!-- img and graph -->
-    <div class="h4 col-xs-12 col-sm-8 col-sm-push-2">
-      Product Title that is really long because long titles are cool
-      and if you don't have one then you have nothing
-    </div>
-  </div>
-  <div class="row row-sm-vert-center">
-    <div class="col-xs-12 col-sm-3 col-sm-push-2">
-      <img class="full-width" src="http://ecx.images-amazon.com/images/I/61JZGK6L--L._SL1500_.jpg">
-    </div>
-    <div ng-controller="Graph"
-        class="col-xs-12 col-sm-5 col-sm-push-2">
-        <linechart data="data" options="options" height="300"></linechart>
-    </div>
-  </div><!-- end img and graph -->
-
-  <div class="row subscribe-btn">
-    <div class="col-xs-12">
-      <button class="btn btn-primary hor-center-block"
-          type="button">Subscribe</button>
-    </div>
-  </div>
+  <div ng-view></div>
 
   <div class="row footer">
     <div class="col-xs-12">
@@ -72,9 +51,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-route.min.js"></script>
 <script src="bower_components/d3/d3.min.js"></script>
 <script src="bower_components/n3-line-chart/build/line-chart.min.js"></script>
 <script src="./app.js"></script>
+<script src="product-detail/product-detail.js"></script>
 </body>
 </html>
 
