@@ -1,0 +1,16 @@
+{
+  "name": "pennypinchers",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "~4.9.0",
+    "hbs": "*",
+    "fs": "*",
+    "debug": "~2.0.0",
+    "mongojs": "*",
+    "mongoose": "*"
+  }
+}
