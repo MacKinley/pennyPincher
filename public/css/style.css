@@ -69,7 +69,6 @@
 .footer {
   border-top: solid 1px #CCC;
   padding: 15px 0px;
-  margin-top: 20px;
 }
 
 .logo {
@@ -77,10 +76,20 @@
 }
 
 .login-opt {
-  width: 50%;
+
+}
+
+.home-jumbo {
+  margin-bottom: 0px;
+  padding-left: 15%;
+}
+
+.home-jumbo h1 {
+  margin-top: 0px;
 }
 
 .subscribe-btn {
   margin-top: 15px;
+  margin-bottom: 20px;
 }
 
