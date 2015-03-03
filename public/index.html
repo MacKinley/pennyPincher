@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Penny Pincher</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,
+    initial-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 
@@ -16,12 +17,12 @@
 
     <div class="col-xs-6 col-sm-3 col-sm-push-6">
       <span class="user-opts">
-        <div class="btn-group btn-group-sm"
-            role="group" aria-label="...">
-          <button type="button"
-              class="btn btn-default login-opt">Sign Up</button>
-          <button type="button"
+        <div ng-controller="LoginPopup" role="group" aria-label="..."
+            class="btn-group btn-group-sm">
+          <button type="button" ng-click="open('Login')"
               class="btn btn-default login-opt">Login</button>
+          <button type="button" ng-click="open('Sign Up')"
+              class="btn btn-default login-opt">Sign Up</button>
         </div>
       </span>
     </div>
@@ -60,10 +61,18 @@
 <script
   src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-route.min.js">
 </script>
-<script src="bower_components/d3/d3.min.js"></script>
-<script src="bower_components/n3-line-chart/build/line-chart.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js">
+</script>
+<script
+  src="bower_components/d3/d3.min.js">
+</script>
+<script
+  src="bower_components/n3-line-chart/build/line-chart.min.js">
+</script>
 <script src="./app.js"></script>
 <script src="homepage/homepage.js"></script>
+<script src="loginPopup/loginPopup.js"></script>
 <script src="product-detail/product-detail.js"></script>
 </body>
 </html>

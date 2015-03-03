@@ -1,4 +1,5 @@
-angular.module('app', ['ngRoute', 'homepage', 'productDetail'])
+angular.module('app', ['ngRoute', 'ui.bootstrap',
+    'homepage', 'loginPopup', 'productDetail'])
 .config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -7,8 +8,7 @@ angular.module('app', ['ngRoute', 'homepage', 'productDetail'])
         controller: 'ProductDetail'
       }).
       otherwise({
-        templateUrl: './homepage/homepage-partial',
-        controller: 'Homepage'
+        templateUrl: './homepage/homepage-partial'
       });
   }]);
 

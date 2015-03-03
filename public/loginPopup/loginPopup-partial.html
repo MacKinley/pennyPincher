@@ -1,0 +1,58 @@
+<div class="fluid-container login-popup">
+  <span class="glyphicon glyphicon-remove flR bigger-font pointer"
+      ng-click="cancel()" aria-hidden="true"></span>
+  <h1>{{ type }}</h1>
+  <form name="login" class="form form-horizontal" novalidate>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">Email:</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control"
+            ng-model="user.email" placeholder="email" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Password:</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control"
+            ng-model="user.password" placeholder="password" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-6 col-sm-offset-2 col-sm-4">
+        <div class="checkbox">
+          <label><input type="checkbox">Remember me</label>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="flR checkbox">
+          <a ng-show="type === 'Login'" ng-click="setType('Sign Up')"
+              class="pointer">Register for free!</a>
+          <a ng-show="type === 'Sign Up'" ng-click="setType('Login')"
+              class="pointer">Already a user?</a>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12">
+        <button type="submit" ng-click="loginSignUp(type)"
+            class="btn btn-primary hor-center-block">
+          {{ type }}
+        </button>
+      </div>
+    </div>
+  </form>
+  <div class="row row-vert-center">
+    <div class="col-xs-5 hr"></div>
+    <div class="col-xs-2 hor-center-block bigger-font">or</div>
+    <div class="col-xs-5 hr"></div>
+  </div>
+  <h1>Connect with:</h1>
+  <div class="row connect-options">
+    <div class="col-xs-12 hor-center-block">
+      <a href="/auth/google" class="btn btn-danger">
+        <i class="fa fa-google"></i> Google
+      </a>
+    </div>
+  </div>
+</div>
+
