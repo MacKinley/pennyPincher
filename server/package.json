@@ -11,6 +11,8 @@
     "fs": "*",
     "debug": "~2.0.0",
     "mongojs": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "socket.io": "*",
+    "lodash" :"*"
   }
 }

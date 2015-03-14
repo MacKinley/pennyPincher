@@ -3,15 +3,29 @@
 // index.js: RESTful API handler for Product object CRUD functionality
 //***************************************************************************
 console.log(__dirname + '../../');
+
 var config = require('../../initialization')('index_productConfig');
 
 var express = config.modules.express,
 	path = config.modules.path,
 	products = config.modules.products,
-	mongooes = config.modules.mongoose,
-	app = express();
+	mongoose = config.modules.mongoose,
+	stream = config.modules.stream;
+	// app = express();
+
+var app = module.exports = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/product:all', function(req, res){
+	var productList = products.getAllProducts();
+	setImmediate(function(){
+		_.foreach(productList, function(product){
+			
+		})
+	});
+
+});
 
 //***************************************************************************
 // /product GET Request:

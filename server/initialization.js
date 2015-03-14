@@ -43,7 +43,6 @@ var appConfig = function(){
 		}
 	}
 
-
 	this.serverName = 'Penny Pincher';
 	this.listeningPort = '3000';
 	this.socketIOPort = '8000';
@@ -116,19 +115,35 @@ var index_productConfig = function(){
 	var productConfig = {
 		scraperKey: '1234567890',
 		updateThreshold_days: 7,
-		updateThreshold_sec: updateThreshold_days * 86400,
-		updateThreshold_milli: updateThreshold_sec * 1000,
+		mongoRoot: 'mongodb://localhost/productTest',
+		documentThreshold: 50,
+		// updateThreshold_sec: updateThreshold_days * 86400,
+		// updateThreshold_milli: updateThreshold_sec * 1000,
 		errors: {
 			get: 'Cannot Get Product',
 			post_key_error: 'Key Is Not Valid'
+		},
+		modules: {
+			mongoose: require('mongoose'),
+			lodash: require('lodash'),
+			schema: require('./bin/product/schema')
 		}
+	};
+
+	var schemaConfig = {
+		details: [{
+			timestamp: {type: Date},
+			description: {type: String}
+		}],
+
 	};
 
 	this.modules = {
 		express: require('express'),
 		path: require('path'),
-		products: require('./public/products')(productConfig),
+		products: require('./bin/product/products')(productConfig),
 		mongoose: require('mongoose'),
+		stream: require('stream')
 		// logger: require(../logger)
 	};
 
