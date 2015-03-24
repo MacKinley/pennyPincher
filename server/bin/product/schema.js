@@ -1,6 +1,6 @@
 var productSchema = function(){
 	var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+		Schema = mongoose.Schema;
 
 	var details = [{
 		timestamp: {type: Date},

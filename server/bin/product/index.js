@@ -2,93 +2,106 @@
 // Product Handler
 // index.js: RESTful API handler for Product object CRUD functionality
 //***************************************************************************
-console.log(__dirname + '../../');
-
 var config = require('../../initialization')('index_productConfig');
 
 var express = config.modules.express,
 	path = config.modules.path,
 	products = config.modules.products,
 	mongoose = config.modules.mongoose,
-	stream = config.modules.stream;
-	// app = express();
+	stream = config.modules.stream,
+	Require = config.modules.Promise,
+	bodyparser = config.modules.bodyparser;
 
 var app = module.exports = express();
-
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyparser.json());
 
-app.get('/product:all', function(req, res){
-	var productList = products.getAllProducts();
-	setImmediate(function(){
-		_.foreach(productList, function(product){
-			
-		})
+// products.getNumber(5)
+// .then(function(val){
+// 	console.log(val);
+// });
+
+// products.getAllProducts()
+// .then(function (list){
+// 	console.log(list);
+// });
+
+//***************************************************************************
+// 	GET Request:
+//		/product/all
+//		Returns all products stored in the database to the client
+//***************************************************************************
+
+app.route( '/product/all' )
+.get( function ( req, res ) {
+	products.getAllProducts()
+	.then( function ( productList ) {
+		res.json(productList);
+	})
+	.catch( function ( error ) {
+		res.status(400).json(error);
 	});
-
 });
 
 //***************************************************************************
-// /product GET Request:
-//		When requested, the designated product will be returned based on the provided
-//		parameters from the client. Parameters to request a product are AmazonID and Tag
+//	GET Request
+//		/product:asin
+//		Returns a product based on the asin 
 //***************************************************************************
-app.get('/product', function(req, res){
-	
-	res.send('success');
-	//validate the parameters
-});
-//***************************************************************************
-//	/product/productIDList GET Request:
-//		When requested, return the available ProductID's for the scraper
-//***************************************************************************
-app.get('/product/productIDList', function(req, res){
-	//Scraper Key Validation
-	res.json(product.getProductIDList());
-});
-//***************************************************************************
-//	/product/productSchema GET Request:
-//***************************************************************************
-app.get('/product/productSchema', function(req, res){
 
+app.route( '/product:asin' )
+.get( function ( req, res ) {
+	if (_.isNull(req.body.asin)) {
+		res.status(400).json({err:'Invalid Parameters'});
+	} else {
+		products.getProductFromASIN(req.body.asin)
+		.then( function (product) {
+			res.json(product);
+		})
+		.catch( function (error ) {
+			res.status(400).json(error);
+		});
+	}
 });
-//***************************************************************************
-// /product POST request:
-//		When requested, validation of the product JSON object will be handled,
-//		if no errors are encountered then the product will be uploaded to the
-//		database.
-//***************************************************************************
-app.post('/product', function(req, res){
 
+//***************************************************************************
+//	GET Request
+//		/product/prices:asin
+//		Returns the price history of a product based on the asin
+//***************************************************************************
+
+app.route( '/product/prices:asin' )
+.get( function ( req, res ) {
+	if (_.isNull(req.body.asin)) {
+		res.status(400).json({err:'Invalid Parameters'});
+	} else {
+		products.getProductPricesFromASIN(req.body.asin)
+		.then ( function ( productPrices ) {
+			res.json(productPrices);
+		})
+		.catch( function ( error ) {
+			res.status(400).json(error);
+		});
+	}
 });
-//***************************************************************************
-// /product/asin GET Request:
-//		Request of a specific Amazon Product based on Amazon Standard
-//		Identification Number (asin).
-//***************************************************************************
-app.get('/product/asin', function(req, res){
 
-});
 //***************************************************************************
-// /product/isbn GET Request:
-//		Request of a specific Amazon Product based on International Standard
-//		Book Notation (isbn).
+//	GET Request
+//		/product:title
+//		Returns a product based on the product title
 //***************************************************************************
-app.get('/product/isbn', function(req, res){
 
-});
-//***************************************************************************
-// /product/upc GET Request:
-//		Request of a specific Amazon Product based on Universal Product
-//		Code (upc).
-//***************************************************************************
-app.get('/product/upc', function(req, res){
-
-});
-//***************************************************************************
-// product/gtin GET Request:
-//		Request of a specific Amazon Product based on Global Trade Item
-//		Number (gtin-14).
-//***************************************************************************
-app.get('/product/gtin', function(req, res){
-
+app.route( '/product:title' )
+.get( function ( req, res ) {
+	if (_isNull(req.body.title)) {
+		res.status(400).json({err:'Invalid Parameters'});
+	} else {
+		products.getProductsFromTitle(req.body.title)
+		.then ( function ( product ) {
+			res.json(product);
+		})
+		.catch ( function ( error ) {
+			res.status(400).json(error);
+		});
+	}
 });

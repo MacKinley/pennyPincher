@@ -1,14 +1,34 @@
-var userSchema = function(){
+var userSchema = function() {
 	var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+		Schema = mongoose.Schema;
+
+	var local = {
+		name: {
+			first: {type: String},
+			last: {type: String}
+		},
+		lastLogin: {type: Date},
+		products: {type: products}, 
+		active: {type: Boolean}
+	}
+	var products = [{
+		asin: {type: String}
+	}]
+	var google = {
+		id: {type: String}
+	}
+	var facebook = {
+		id: {type: String},
+		token: {type: String},
+		email: {type: String},
+		name: {type: String}
+	}
 
 	this.schema = new Schema({
-		firstname: {type: String},
-		lastname: {type: String},
-		age: {type: Number},
-		username: {type: String},
-		email: {type: String},
+		local: {type: local},
+		google: {type: google},
+		facebook: {type: facebook}
 	});
-
+	this.userModel = mongoose.model('User', this.schema);
 };
 module.exports = new userSchema;

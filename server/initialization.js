@@ -17,6 +17,8 @@ var getConfiguration = function(configType){
 		return new appConfig();
 		case 'index_productConfig':
 		return new index_productConfig();
+		case 'index_userConfig':
+		return new index_userConfig();
 	}
 };
 
@@ -47,14 +49,15 @@ var appConfig = function(){
 	this.listeningPort = '3000';
 	this.socketIOPort = '8000';
 	this.serverURL = 'https://localhost:'+this.listeningPort;
-	this.modules = {
+	this.modules = {	//this should initialize everything in the server
 		express: require('express'),
 		path: require('path'),
 		handlebars: require('hbs'),
 		socketIO: require('socket.io'),
 		// logger: require('./bin/logger'),
 		index: require('./bin/index'),
-		product: require('./bin/product')
+		product: require('./bin/product'),
+		user: require('./bin/user')
 	};
 	this.render = {
 		viewsDirectory:
@@ -110,7 +113,73 @@ var loggerConfig = function(){
 	};
 };
 
-var index_productConfig = function(){
+var index_userConfig = function() {
+
+	var schemaConfig = {
+		modules: {
+			mongoose: require('mongoose')
+		}
+	};
+	var userConfig = {
+		mongoRoot: 'mongodb://localhost/userTest',
+		modules: {
+			lodash: require('lodash'),
+			promise: require('bluebird'),
+			mongoose: require('mongoose'),
+			schema: require('./bin/user/schema'),
+			products: require('./bin/product/products')
+		},
+		errors: {
+			notFound: 'No Such User',
+			asinExists: 'User Already Subscribed To Product',
+			asinNotFound: 'User Is Not Subscribed To Product',
+			asinSave: 'Failed To Update Subscription',
+			asinRemove: 'Failed To Remove Subscription',
+			noSuchProduct: 'No Such Product Found',
+			deactivate: 'Could Not Deactivate Account',
+			reactivate: 'Could Not Reactivate Account'
+		}
+	};
+	this.google = {
+		appId: '',
+		appSecret: '',
+		routing: {
+			realm: 'http://localhost:3000',
+			returnURL: 'http://localhost:3000/auth/google/return'
+		}
+	};
+	this.facebook = {
+		appId: '1594707767440171',
+		appSecret: '601dc1eff17354e92929d81ab65523ad',
+		routing: {
+			appRouter: '/user/authenticate/facebook',
+			appCallback: 'http://localhost:3000'+'/auth/facebook/callback',	//This needs to be adaptive
+			successRedirect: '',
+			failureRedirect: '',
+		}, 
+		profileFields: [
+			'id',
+			'username',
+			'name',
+			'gender',
+			'emails',
+			'photos'
+		]
+	};
+	this.modules = {
+		express: require('express'),
+		passport: require('passport'),
+		facebook: require('passport-facebook'),
+		google: require('passport-google'),
+		bodyparser: require('body-parser'),
+		promise: require('bluebird'),
+		session: require('express-sessions'),
+		cookieparser: require('cookie-parser'),
+		users: require('./bin/user/users')(userConfig)
+	};
+};
+
+var index_productConfig = function(){ 
 
 	var productConfig = {
 		scraperKey: '1234567890',
@@ -126,7 +195,8 @@ var index_productConfig = function(){
 		modules: {
 			mongoose: require('mongoose'),
 			lodash: require('lodash'),
-			schema: require('./bin/product/schema')
+			schema: require('./bin/product/schema'),
+			promise: require('bluebird')
 		}
 	};
 
@@ -143,7 +213,9 @@ var index_productConfig = function(){
 		path: require('path'),
 		products: require('./bin/product/products')(productConfig),
 		mongoose: require('mongoose'),
-		stream: require('stream')
+		stream: require('stream'),
+		Promise: require('bluebird'),
+		bodyparser: require('body-parser')
 		// logger: require(../logger)
 	};
 

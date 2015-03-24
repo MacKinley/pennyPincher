@@ -21,6 +21,7 @@ var express = config.modules.express,
 	handlebars = config.modules.handlebars,
 	index = config.modules.index,
 	product = config.modules.product,
+	user = config.modules.user,
 	socketIO = config.modules.socketIO,
 	//logger = config.modules.logger,
 	app = express();
@@ -31,6 +32,7 @@ app.engine(config.render.htmlRouting.engine, config.render.htmlRouting.routing);
 
 app.use(index);
 app.use(product);
+app.use(user);
 
 app.use(express.static(path.join(__dirname,'views')));
 app.use(function(req, res){

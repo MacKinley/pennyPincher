@@ -6,13 +6,20 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bluebird": "*",
+    "body-parser": "*",
+    "cookie-parser": "*",
+    "debug": "^2.0.0",
     "express": "~4.9.0",
-    "hbs": "*",
+    "express-sessions": "*",
     "fs": "*",
-    "debug": "~2.0.0",
+    "hbs": "*",
+    "lodash": "*",
     "mongojs": "*",
     "mongoose": "*",
-    "socket.io": "*",
-    "lodash" :"*"
+    "passport": "*",
+    "passport-facebook": "*",
+    "passport-google": "*",
+    "socket.io": "*"
   }
 }
