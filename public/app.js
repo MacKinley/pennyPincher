@@ -10,5 +10,18 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
       otherwise({
         templateUrl: './homepage/homepage-partial'
       });
-  }]);
+}])
+.constant('API_ENDPOINT', 'http://localhost:3000/')
+.service('ProductService', ['$http', 'API_ENDPOINT', function($http, apiEndpoint){
+  this.getProduct = function(asin, callback){
+    $http.get(apiEndpoint + 'product:' + asin)
+    .success(
+      function(data, status, headers, config){
+      callback(data);
+    }).error(
+      function(data, status, headers, config){
+      callback(data);
+    });
+  };
+}]);
 

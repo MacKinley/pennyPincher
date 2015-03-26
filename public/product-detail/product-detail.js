@@ -1,8 +1,10 @@
 angular.module('productDetail', ['n3-line-chart'])
-.controller('ProductDetail', ['$scope', '$http', '$routeParams',
-  function($scope, $http, $routeParams) {
-    // get product id with $routeParams
-    // then use $http to make api request(s) with the acquired id
+.controller('ProductDetail', ['$scope', '$routeParams', 'ProductService',
+  function($scope, $routeParams, ProductService) {
+    ProductService.getProduct($routeParams.asin,
+    function(response){
+      $scope.product = response;
+    });
   }
 ])
 .controller("Graph", function ($scope) {
