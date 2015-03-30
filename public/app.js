@@ -8,10 +8,11 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
         controller: 'ProductDetail'
       }).
       otherwise({
-        templateUrl: './homepage/homepage-partial'
+        templateUrl: './homepage/homepage-partial.html'
       });
-      $locationProvider.html5Mode(true);
-}])
+    $locationProvider.html5Mode(true);
+  }
+])
 .constant('API_ENDPOINT', 'http://localhost:3000/')
 .service('ProductService', ['$http', 'API_ENDPOINT',
   function($http, apiEndpoint){
@@ -23,5 +24,6 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
         callback(data);
       });
     };
-}]);
+  }
+]);
 
