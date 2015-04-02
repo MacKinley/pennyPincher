@@ -11,4 +11,3 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
         templateUrl: './homepage/homepage-partial'
       });
   }]);
-

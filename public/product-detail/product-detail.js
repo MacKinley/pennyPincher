@@ -146,4 +146,3 @@ angular.module('productDetail', ['n3-line-chart'])
     tooltip: {mode: "scrubber"}
   };
 });
-
