@@ -52,9 +52,9 @@ var appConfig = function(){
 		express: require('express'),
 		path: require('path'),
 		// logger: require('./logger'),
-		index: require('./index'),
-		product: require('./product'),
-		user: require('./user')
+		client: require('./client/routes'),
+		product: require('./product/routes'),
+		user: require('./user/routes')
 	};
 	this.render = {
 		viewsDirectory:
@@ -203,6 +203,7 @@ var index_productConfig = function(){
 	this.modules = {
 		express: require('express'),
 		path: require('path'),
+    lodash: require('lodash'),
 		products: require('./product/products')(productConfig),
 		mongoose: require('mongoose'),
 		stream: require('stream'),

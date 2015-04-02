@@ -24,7 +24,7 @@ passport.use(new facebookStrategy({
 	clientSecret: facebook.appSecret, 
 	callbackURL: facebookRouting.appCallback,
 	profileFields: facebook.profileFields
-	}, 
+	},
 	function ( accessToken, refreshToken, profile, done ) {
 		users.parseFacebookLogin(profile, accessToken)
 		.then( function ( user ) {
@@ -61,11 +61,11 @@ app.route( facebookRouting.appCallback )
 
 //***************************************************************************
 //	GET Request
-//		/users/all
+//		/api/users/all
 //		Returns all users stored in the database to the client
 //***************************************************************************
 
-app.route( '/users/all' )
+app.route( '/api/users/all' )
 .get( function ( req, res ) {
 	users.getAllUsers()
 	.then( function ( userList ) {
@@ -78,11 +78,11 @@ app.route( '/users/all' )
 
 //***************************************************************************
 //	GET Request
-//		/users/id
+//		/api/users/id
 //		Returns user of current id based on either facebook or google authentication
 //***************************************************************************
 
-app.route ( '/users/id' )
+app.route ( '/api/users/id' )
 .get( function ( req, res ) {
 	if (res.body.service === 'facebook' || res.body.service === 'google'){
 		users.getUserFromId(res.body.userId, res.body.service)
@@ -99,18 +99,18 @@ app.route ( '/users/id' )
 
 //***************************************************************************
 //	GET Request
-//		/users/asin
+//		/api/users/asin
 //		Returns users subscribed to products with asin
 //***************************************************************************
-app.route( '/users/asin' ) 
+app.route( '/api/users/asin' ) 
 .get( function ( req, res ) {
 
 });
-app.route( '/users/asin/sub' ) 
+app.route( '/api/users/asin/sub' ) 
 .get ( function ( req, res ) {
 
 });
-app.route( '/users/asin' )
+app.route( '/api/users/asin' )
 .post ( function ( req, res ) {
 	if (_.isNull(req.body.asin)){
 		res.status(400);
@@ -124,33 +124,8 @@ app.route( '/users/asin' )
 		});
 	}
 });
-app.route( '/users/id' )
+app.route( '/api/users/id' )
 .delete ( function ( req, res ) {
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

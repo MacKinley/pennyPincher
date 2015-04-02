@@ -4,13 +4,14 @@
 //***************************************************************************
 var config = require('../initialization')('index_productConfig');
 
-var express = config.modules.express,
-	path = config.modules.path,
-	products = config.modules.products,
-	mongoose = config.modules.mongoose,
-	stream = config.modules.stream,
-	Require = config.modules.Promise,
-	bodyparser = config.modules.bodyparser;
+var express     = config.modules.express,
+    path        = config.modules.path,
+    products    = config.modules.products,
+    mongoose    = config.modules.mongoose,
+    _           = config.modules.lodash,
+    stream      = config.modules.stream,
+    Require     = config.modules.Promise,
+    bodyparser  = config.modules.bodyparser;
 
 var app = module.exports = express();
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,80 +29,81 @@ app.use(bodyparser.json());
 
 //***************************************************************************
 // 	GET Request:
-//		/product/all
+//		/api/product/all
 //		Returns all products stored in the database to the client
 //***************************************************************************
 
-app.route( '/product/all' )
+app.route( '/api/product/all' )
 .get( function ( req, res ) {
-	products.getAllProducts()
-	.then( function ( productList ) {
-		res.json(productList);
-	})
-	.catch( function ( error ) {
-		res.status(400).json(error);
-	});
+  products.getAllProducts()
+  .then( function ( productList ) {
+    res.json(productList);
+  })
+  .catch( function ( error ) {
+    res.status(400).json(error);
+  });
 });
 
 //***************************************************************************
 //	GET Request
-//		/product:asin
+//		/api/product:asin
 //		Returns a product based on the asin 
 //***************************************************************************
 
-app.route( '/product:asin' )
+app.route( '/api/product:asin' )
 .get( function ( req, res ) {
-	if (_.isNull(req.body.asin)) {
-		res.status(400).json({err:'Invalid Parameters'});
-	} else {
-		products.getProductFromASIN(req.body.asin)
-		.then( function (product) {
-			res.json(product);
-		})
-		.catch( function (error ) {
-			res.status(400).json(error);
-		});
-	}
+  if (_.isNull(req.params.asin)) {
+    res.status(400).json({err:'Invalid Parameters'});
+  } else {
+    products.getProductFromASIN(req.params.asin)
+    .then( function (product) {
+      res.json(product);
+    })
+    .catch( function (error ) {
+      res.status(400).json(error);
+    });
+  }
 });
 
 //***************************************************************************
 //	GET Request
-//		/product/prices:asin
+//		/api/product/prices:asin
 //		Returns the price history of a product based on the asin
 //***************************************************************************
 
-app.route( '/product/prices:asin' )
+app.route( '/api/product/prices:asin' )
 .get( function ( req, res ) {
-	if (_.isNull(req.body.asin)) {
-		res.status(400).json({err:'Invalid Parameters'});
-	} else {
-		products.getProductPricesFromASIN(req.body.asin)
-		.then ( function ( productPrices ) {
-			res.json(productPrices);
-		})
-		.catch( function ( error ) {
-			res.status(400).json(error);
-		});
-	}
+  if (_.isNull(req.params.asin)) {
+    res.status(400).json({err:'Invalid Parameters'});
+  } else {
+    products.getProductPricesFromASIN(req.params.asin)
+    .then ( function ( productPrices ) {
+      res.json(productPrices);
+    })
+    .catch( function ( error ) {
+      res.status(400).json(error);
+    });
+  }
 });
 
 //***************************************************************************
 //	GET Request
-//		/product:title
+//		/api/product:title
 //		Returns a product based on the product title
 //***************************************************************************
 
-app.route( '/product:title' )
+app.route( '/api/product:title' )
 .get( function ( req, res ) {
-	if (_isNull(req.body.title)) {
-		res.status(400).json({err:'Invalid Parameters'});
-	} else {
-		products.getProductsFromTitle(req.body.title)
-		.then ( function ( product ) {
-			res.json(product);
-		})
-		.catch ( function ( error ) {
-			res.status(400).json(error);
-		});
-	}
+  if (_isNull(req.params.title)) {
+    res.status(400).json({err:'Invalid Parameters'});
+  } else {
+    products.getProductsFromTitle(req.params.title)
+    .then ( function ( product ) {
+      res.json(product);
+    })
+    .catch ( function ( error ) {
+      res.status(400).json(error);
+    });
+  }
 });
+

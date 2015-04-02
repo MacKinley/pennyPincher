@@ -17,29 +17,27 @@ var settings = buildSettings[0];
 var config = require(__dirname+'/initialization')('appConfig');
 
 var express = config.modules.express, 
-	path = config.modules.path, 
-	handlebars = config.modules.handlebars,
-	index = config.modules.index,
-	product = config.modules.product,
-	user = config.modules.user,
-	socketIO = config.modules.socketIO,
-	//logger = config.modules.logger,
-	app = express();
+    path = config.modules.path, 
+    client = config.modules.client,
+    product = config.modules.product,
+    user = config.modules.user,
+    //logger = config.modules.logger,
+    app = express();
 
-app.set(config.render.viewsDirectory.views, config.render.viewsDirectory.dir);
-app.set(config.render.viewEngine.viewengine, config.render.viewEngine.engine);
-
-app.use(index);
 app.use(product);
 app.use(user);
 
-app.use(express.static(path.join(__dirname,'views')));
-app.use(function(req, res){
-	res.status(config.error.notFound.status);
-	res.sendFile(config.error.notFound.result);
+// catches all api routes that don't exist
+app.use('/api/*', function(req, res){
+  res.status(config.error.notFound.status);
+  res.send('Not Found');
 });
-app.use(function(req, res){
-	res.status(config.error.unknown.status);
-	res.sendFile(config.error.unknown.result);
+
+// routes all other requests to front end
+app.use(express.static(__dirname +'/public'));
+app.use('*', function(req, res){
+  res.sendFile(__dirname + '/public/index.html');
 });
+
 app.listen(config.listeningPort);
+
