@@ -8,6 +8,8 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
         controller: 'ProductDetail'
       }).
       otherwise({
-        templateUrl: './homepage/homepage-partial'
+        templateUrl: './homepage/homepage-partial.html'
       });
-  }]);
+  }
+]);
+
