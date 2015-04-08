@@ -1,16 +1,14 @@
-<div ng-controller="ProductDetail" class="row"><!-- img and graph -->
+<div class="row"><!-- img and graph -->
   <div class="h4 col-xs-12 col-sm-8 col-sm-push-2">
-    Product Title that is really long because long titles are cool
-    and if you don't have one then you have nothing
+    {{ product.title }}
   </div>
 </div>
 <div class="row row-sm-vert-center">
   <div class="col-xs-12 col-sm-3 col-sm-push-2">
-    <img class="full-width" src="http://ecx.images-amazon.com/images/I/61JZGK6L--L._SL1500_.jpg">
+    <img class="full-width" ng-src="{{ product.image }}">
   </div>
-  <div ng-controller="Graph"
-    class="col-xs-12 col-sm-5 col-sm-push-2">
-    <linechart data="data" options="options" height="300"></linechart>
+  <div class="col-xs-12 col-sm-5 col-sm-push-2">
+    <linechart data="graphPrices" options="graphOptions" height="300"></linechart>
   </div>
 </div><!-- end img and graph -->
 

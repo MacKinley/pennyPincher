@@ -10,18 +10,18 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
       otherwise({
         templateUrl: './homepage/homepage-partial.html'
       });
-    $locationProvider.html5Mode(true);
+      $locationProvider.html5Mode(true);
   }
 ])
-.constant('API_ENDPOINT', 'http://localhost:3000/')
+.constant('API_ENDPOINT', 'http://localhost:8000/api/')
 .service('ProductService', ['$http', 'API_ENDPOINT',
   function($http, apiEndpoint){
     this.getProduct = function(asin, callback){
       $http.get(apiEndpoint + 'product:' + asin)
-      .success(function(data, status, headers, config){
-        callback(data);
-      }).error(function(data, status, headers, config){
-        callback(data);
+      .success(function(data){
+        callback(null, data);
+      }).error(function(data){
+        callback(data, null);
       });
     };
   }

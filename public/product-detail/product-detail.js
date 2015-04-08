@@ -1,44 +1,28 @@
 angular.module('productDetail', ['n3-line-chart'])
 .controller('ProductDetail',
-    ['$scope', '$routeParams', 'ProductService', 'PriceSharer',
-  function($scope, $routeParams, ProductService, PriceSharer) {
-    ProductService.getProduct($routeParams.asin,
-    function(response){
-      $scope.product = response;
-    });
-  }
-])
-.service('PriceSharer', function(){
-  this.prices = [
-      {
-        x: new Date(1422072611079),
-        price: 0.00
-      },
-      {
-        x: new Date(1422159011079),
-        price: 8.47
-      },
-      {
-        x: new Date(1422245411079),
-        price: 13.98
-      },
-      {
-        x: new Date(1422331811079),
-        price: 14.60
-      },
-      {
-        x: new Date(1422431811079),
-        price: 15.23
+    ['$scope', '$routeParams', 'ProductService',
+  function($scope, $routeParams, ProductService){
+    // get product from db
+    ProductService.getProduct($routeParams.asin, function(err, response){
+      if(err){
+        return;
+      }else{
+        $scope.product = response;
+        response.analytics.forEach(function(element, index, array){
+          array[index].date = new Date(element.date);
+        });
+        $scope.graphPrices = response.analytics;
       }
-  ];
-})
-.controller('Graph', ['$scope', 'PriceSharer',
-  function($scope, PriceSharer){
-    $scope.data = PriceSharer.prices;
-    $scope.options = {
+    });
+
+    $scope.graphPrices = [];
+    $scope.graphOptions = {
       lineMode: "linear",
       tension: 1,
-      axes: {x: {type: "date", key: "x", ticks: 5}, y: {type: "linear"}},
+      axes: {
+          x: {type: "date", key: "date", ticks: 5},
+          y: {type: "linear", min: 0}
+      },
       drawLegend: false,
       series: [
         {
@@ -52,10 +36,10 @@ angular.module('productDetail', ['n3-line-chart'])
       ],
       tooltip: {
         mode: "scrubber",
-        formatter: function (x, y, series) {
-          return x.getMonth()+1
-              + '/' + x.getDate()
-              + '/' + x.getUTCFullYear() + ' : '
+        formatter: function (date, y, series) {
+          return date.getMonth()+1
+              + '/' + date.getDate()
+              + '/' + date.getUTCFullYear() + ' : '
               + '$' + y;
         }
       }
