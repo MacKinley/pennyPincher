@@ -1,8 +1,18 @@
 angular.module('productDetail', ['n3-line-chart'])
 .controller('ProductDetail',
-    ['$scope', '$routeParams', 'ProductService',
-  function($scope, $routeParams, ProductService){
-    // get product from db
+    ['$scope', '$routeParams', 'ProductService', 'PopupService',
+  function($scope, $routeParams, ProductService, PopupService){
+    $scope.subscribe = function(asin){
+      // check if user is logged in
+      // if not activate popup
+      PopupService.open('Sign Up');
+      // UserService.addSubscription(asin, user.email);
+      // prompt user of any errors
+      // prompt user so they know they're subscribed and change button to
+      // unsubscribe
+    };
+
+    // get product from db on page load
     ProductService.getProduct($routeParams.asin, function(err, response){
       if(err){
         return;

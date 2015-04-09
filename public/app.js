@@ -25,5 +25,20 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
       });
     };
   }
+])
+.service('PopupService', ['$modal',
+  function($modal) {
+    this.open = function(type){
+      var modalInstance = $modal.open({
+        templateUrl: 'loginPopup/loginPopup-partial.html',
+        controller: 'LoginPopupInstance',
+        resolve: {
+          loginType: function () {
+            return type;
+          }
+        }
+      });
+    };
+  }
 ]);
 
