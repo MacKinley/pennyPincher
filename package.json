@@ -17,6 +17,7 @@
     "mongojs": "*",
     "mongoose": "*",
     "passport": "*",
+    "passport-local": "*",
     "passport-facebook": "*",
     "passport-google": "*"
   }

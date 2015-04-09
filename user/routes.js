@@ -1,4 +1,7 @@
-var config = require('../initialization')('index_userConfig');
+var config = require('../initialization')('index_userConfig'),
+	signup = require('./signup'),
+	local = require('passport-local').Strategy;
+
 
 var express = config.modules.express, 
 	passport = config.modules.passport,
@@ -45,6 +48,8 @@ passport.use(new googleStrategy({
 	})
 );
 
+
+
 var app = module.exports = express();
 
 app.use(bodyparser.json());
@@ -58,6 +63,21 @@ app.route( facebookRouting.appCallback )
 	function ( req, res ) {
 		res.redirect(facebookRouting.successRedirect);
 });
+
+// app.post('/api/users/signup', passport.authenticate('local-signup'), function(req, res, err){
+// 	if(err){
+// 		handleError(500);
+// 		retun;
+// 	}
+// 	res.json(req.user.local.displayName);
+// });
+
+app.post('/api/users/login', passport.authenticate('local-login', {
+	successRedirect:'/api/users/profile',
+	failureRedirect:'/api/users/login'
+}));
+
+
 
 //***************************************************************************
 //	GET Request

@@ -1,6 +1,7 @@
 var userSchema = function() {
   var mongoose = require('mongoose'),
       Schema = mongoose.Schema;
+  var bcrypt = require('bcrypt-nodejs');
 
   var local = {
     displayName: {type: String},
@@ -28,8 +29,17 @@ var userSchema = function() {
     google: {type: google},
     facebook: {type: facebook}
   });
+
   this.userModel = mongoose.model('User', this.schema);
 };
+
+ userSchema.generateHash = function(password){
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  };
+
+  userSchema.validation = function(password){
+    return bcrypt.compareSync(password, this.local.password);
+  };
 
 module.exports = new userSchema;
 
