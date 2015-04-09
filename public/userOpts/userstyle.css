@@ -1,0 +1,74 @@
+@import url('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+@import url('//necolas.github.io/normalize.css/3.0.2/normalize.css');
+
+
+element {
+    max-width: 65%;
+}
+.hor-center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.thumbnail {
+    display: block;
+	max-width: 65%;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.42857;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+	/*max-width:80%;    this is used in case the margins do not work*/
+}
+
+@media (min-width: 100%) { 
+.btn-primary {
+    color: #FFF;
+    background-color: #428BCA;
+    border-color: #357EBD;
+	margin: 1em 0px;
+}
+
+.thumbnail .caption {
+    padding: 9px;
+    color: #333;
+}
+}
+
+
+.col-sm-4 {
+	padding: 1em 0em;
+    width: 33.3333%;
+}
+
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    color: #FFF;
+    background-color: #3071A9;
+    border-color: #285E8E;
+}
+
+*.{
+    box-sizing: border-box;
+}
+
+element {
+    max-width: 80%;
+
+img {
+    border: 0px none;
+}
+img {
+    vertical-align: middle;
+}
+}
