@@ -17,11 +17,11 @@ angular.module('productDetail', ['n3-line-chart'])
       if(err){
         return;
       }else{
-        $scope.product = response;
-        response.analytics.forEach(function(element, index, array){
+        $scope.product = response.product;
+        $scope.product.analytics.forEach(function(element, index, array){
           array[index].date = new Date(element.date);
         });
-        $scope.graphPrices = response.analytics;
+        $scope.graphPrices = $scope.product.analytics;
       }
     });
 
