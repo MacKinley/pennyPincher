@@ -1,16 +1,8 @@
 angular.module('loginPopup', [])
-.controller('LoginPopup', ['$scope', '$modal',
-  function($scope, $modal) {
+.controller('LoginPopup', ['$scope', 'PopupService',
+  function($scope, PopupService) {
     $scope.open = function(type){
-      var modalInstance = $modal.open({
-        templateUrl: 'loginPopup/loginPopup-partial.html',
-        controller: 'LoginPopupInstance',
-        resolve: {
-          loginType: function () {
-            return type;
-          }
-        }
-      });
+      PopupService.open(type);
     };
   }
 ])
