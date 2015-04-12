@@ -1,0 +1,19 @@
+<div class="row" style="padding:0em 7em">
+  <div ng-repeat="product in products"
+      class="col-xs-12 col-md-4" style="padding: 1em 0em;">
+    <div class="thumbnail hor-center-block" style="max-width:65%;">
+      <div class="caption">
+        <a href="/product/{{ product.asin }}">
+          <h4>{{ product.title }}</h4>
+        </a>
+        <a href="/product/{{ product.asin }}">
+          <img ng-src="{{ product.image }}" style="max-width:100%">
+        </a>
+        <a ng-click="subscribe('Sign Up')" class="btn btn-primary" role="button" style="margin: 1em 0px;">
+          Subscribe
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+

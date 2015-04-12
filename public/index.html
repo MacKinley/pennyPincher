@@ -29,17 +29,18 @@
     </div>
 
     <!-- search bar -->
-    <div class="col-xs-12 col-sm-6 col-sm-pull-3 search-bar">
+    <form ng-controller="SearchBar" ng-submit="search()"
+      class="col-xs-12 col-sm-6 col-sm-pull-3 search-bar" novalidate>
       <div class="input-group">
-        <input class="form-control"
+        <input class="form-control" ng-model="searchInput"
             placeholder="Enter product title or URL" type="text">
         <span class="input-group-btn">
-          <button class="btn btn-primary" type="button">
+          <button class="btn btn-primary" type="submit">
             <span class="glyphicon glyphicon-search"></span>
           </button>
         </span>
       </div>
-    </div>
+    </form>
   </div> <!-- end header -->
 
   <div ng-view></div>
@@ -71,9 +72,10 @@
 <script
   src="bower_components/n3-line-chart/build/line-chart.min.js">
 </script>
-<script src="./app.js"></script>
 <script src="homepage/homepage.js"></script>
 <script src="loginPopup/loginPopup.js"></script>
 <script src="product-detail/product-detail.js"></script>
+<script src="search/search.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>
