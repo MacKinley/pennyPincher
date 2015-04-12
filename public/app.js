@@ -1,11 +1,15 @@
 angular.module('app', ['ngRoute', 'ui.bootstrap',
-    'homepage', 'loginPopup', 'productDetail'])
+    'homepage', 'loginPopup', 'productDetail', 'productSearch'])
 .config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
       when('/product/:asin', {
         templateUrl: './product-detail/product-detail-partial.html',
         controller: 'ProductDetail'
+      }).
+      when('/search/:title', {
+        templateUrl: './search/search-partial.html',
+        controller: 'ProductSearch'
       }).
       otherwise({
         templateUrl: './homepage/homepage-partial.html'
@@ -18,6 +22,15 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
   function($http, apiEndpoint){
     this.getProduct = function(asin, callback){
       $http.get(apiEndpoint + 'product:' + asin)
+      .success(function(data){
+        callback(null, data);
+      }).error(function(data){
+        callback(data, null);
+      });
+    };
+
+    this.searchByTitle = function(title, callback){
+      $http.get(apiEndpoint + 'searchFor:' + title)
       .success(function(data){
         callback(null, data);
       }).error(function(data){

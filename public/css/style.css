@@ -36,8 +36,12 @@ input.ng-invalid.ng-touched {
 }
 
 input.ng-valid.ng-touched {
-    background-color: #A8FAB9;
-  }
+  background-color: #A8FAB9;
+}
+
+.search-bar input {
+  background-color: #FFFFFF !important;
+}
 
 .row-vert-center {
   display: flex;
