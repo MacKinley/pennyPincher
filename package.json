@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "*",
     "body-parser": "*",
     "cookie-parser": "*",
@@ -17,9 +18,8 @@
     "mongojs": "*",
     "mongoose": "*",
     "passport": "*",
-    "passport-local": "*",
     "passport-facebook": "*",
-    "passport-google": "*"
+    "passport-google": "*",
+    "passport-local": "*"
   }
 }
-

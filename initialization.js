@@ -167,7 +167,8 @@ var index_userConfig = function() {
 		promise: require('bluebird'),
 		session: require('express-sessions'),
 		cookieparser: require('cookie-parser'),
-		users: require('./user/users')(userConfig)
+		users: require('./user/users')(userConfig),
+    userModel: require('./user/schema')
 	};
 };
 

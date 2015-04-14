@@ -1,6 +1,4 @@
-var config = require('../initialization')('index_userConfig'),
-	signup = require('./signup'),
-	local = require('passport-local').Strategy;
+var config = require('../initialization')('index_userConfig');
 
 
 var express = config.modules.express, 
@@ -13,6 +11,8 @@ var express = config.modules.express,
 	googleStrategy = config.modules.google.Strategy,
 	bodyparser = config.modules.bodyparser,
 	users = config.modules.users;
+
+require('./signup')(passport);
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -64,13 +64,14 @@ app.route( facebookRouting.appCallback )
 		res.redirect(facebookRouting.successRedirect);
 });
 
-// app.post('/api/users/signup', passport.authenticate('local-signup'), function(req, res, err){
-// 	if(err){
-// 		handleError(500);
-// 		retun;
-// 	}
-// 	res.json(req.user.local.displayName);
-// });
+app.post('/api/users/signup', function(req, res){
+    passport.authenticate('local-signup',
+  function(err, user){
+    req.login(user, function(err){
+      res.json(req.user);
+    });
+  })(req, res);
+});
 
 app.post('/api/users/login', passport.authenticate('local-login', {
 	successRedirect:'/api/users/profile',

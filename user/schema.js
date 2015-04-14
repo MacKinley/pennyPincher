@@ -30,16 +30,17 @@ var userSchema = function() {
     facebook: {type: facebook}
   });
 
-  this.userModel = mongoose.model('User', this.schema);
-};
-
- userSchema.generateHash = function(password){
+  this.generateHash = function(password){
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
   };
 
-  userSchema.validation = function(password){
+  this.validation = function(password){
     return bcrypt.compareSync(password, this.local.password);
   };
+
+  var db = mongoose.createConnection('mongodb://localhost:27017/pennyPincher');
+  this.userModel = db.model('users', this.schema);
+};
 
 module.exports = new userSchema;
 

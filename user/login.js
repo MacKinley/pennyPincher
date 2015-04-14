@@ -16,7 +16,7 @@ passport.deserializeUser(function(id, done){
 
 
 
-passport.use('local-login', new LocalStrategy({
+passport.use('local-login', new local({
 
 	usernameField: 'email',
 	passwordField: 'password'
