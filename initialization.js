@@ -166,7 +166,6 @@ var index_userConfig = function() {
 		cookieparser: require('cookie-parser'),
 		bodyparser: require('body-parser'),
 		promise: require('bluebird'),
-		session: require('express-sessions'),
 		passport: require('passport'),
 		users: require('./user/users')(userConfig),
     	userModel: require('./user/schema')

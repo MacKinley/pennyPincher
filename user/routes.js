@@ -10,17 +10,21 @@ var express = config.modules.express,
 	googleStrategy = config.modules.google.Strategy,
 	bodyparser = config.modules.bodyparser,
 	passport = config.modules.passport,
+  User = config.modules.userModel,
 	users = config.modules.users;
 
 require('./signup')(passport);
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
+  //Used for login passport uses to serilaze and deserilaze user out of session
+  passport.serializeUser(function(user, done){
+    done(null, user.id);
+  });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
+  passport.deserializeUser(function(id, done){
+    user.userModel.findOne(id, function(err, user){
+      done(err, user);
+    });
+  });
 
 passport.use(new facebookStrategy({
 	clientID: facebook.appId,
@@ -52,7 +56,6 @@ passport.use(new googleStrategy({
 
 var app = module.exports = express();
 
-app.use(bodyparser.json());
 
 app.route( facebookRouting.appRouter )
 .get(passport.authenticate('facebook'));
