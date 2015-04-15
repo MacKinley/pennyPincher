@@ -2,7 +2,6 @@ var config = require('../initialization')('index_userConfig');
 
 
 var express = config.modules.express, 
-	passport = config.modules.passport,
 	facebook = config.facebook,
 	facebookRouting = config.facebook.routing,
 	facebookStrategy = config.modules.facebook.Strategy,
@@ -10,6 +9,7 @@ var express = config.modules.express,
 	googleRouting = config.google.routing,
 	googleStrategy = config.modules.google.Strategy,
 	bodyparser = config.modules.bodyparser,
+	passport = config.modules.passport,
 	users = config.modules.users;
 
 require('./signup')(passport);
@@ -64,13 +64,9 @@ app.route( facebookRouting.appCallback )
 		res.redirect(facebookRouting.successRedirect);
 });
 
-app.post('/api/users/signup', function(req, res){
-    passport.authenticate('local-signup',
-  function(err, user){
-    req.login(user, function(err){
-      res.json(req.user);
-    });
-  })(req, res);
+app.post('/api/users/signup', passport.authenticate('local-signup'),
+  function(req, res){
+      res.json(req.user); 
 });
 
 app.post('/api/users/login', passport.authenticate('local-login', {
@@ -113,7 +109,7 @@ app.route ( '/api/users/id' )
 		.catch( function ( error ) {
 			res.status(400).json(error);
 		});
-	} else {
+	}else {
 		res.status(400);
 	}
 });

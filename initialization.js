@@ -54,7 +54,8 @@ var appConfig = function(){
 		// logger: require('./logger'),
 		client: require('./client/routes'),
 		product: require('./product/routes'),
-		user: require('./user/routes')
+		user: require('./user/routes'),
+		passport: require('passport')
 	};
 	this.render = {
 		viewsDirectory:
@@ -160,15 +161,15 @@ var index_userConfig = function() {
 	};
 	this.modules = {
 		express: require('express'),
-		passport: require('passport'),
 		facebook: require('passport-facebook'),
 		google: require('passport-google'),
+		cookieparser: require('cookie-parser'),
 		bodyparser: require('body-parser'),
 		promise: require('bluebird'),
 		session: require('express-sessions'),
-		cookieparser: require('cookie-parser'),
+		passport: require('passport'),
 		users: require('./user/users')(userConfig),
-    userModel: require('./user/schema')
+    	userModel: require('./user/schema')
 	};
 };
 

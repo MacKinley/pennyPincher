@@ -26,11 +26,10 @@ module.exports = function(passport){
             // If user is already in the database
             if(user){
               done(null, false);
-            }else{
+          }else{
               var newUser = new User();
-              newUser.email = email;
-              newUser.password = UserSchema.generateHash(password);
-
+              newUser.local.email = email;
+              newUser.local.password = UserSchema.generateHash(password);
               newUser.save(function(err){
                 if(err){
                   done(err, null);

@@ -22,8 +22,11 @@ var express = config.modules.express,
     product = config.modules.product,
     user = config.modules.user,
     //logger = config.modules.logger,
+    passport = config.modules.passport,
     app = express();
 
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(product);
 app.use(user);
 

@@ -3,14 +3,14 @@ var userSchema = function() {
       Schema = mongoose.Schema;
   var bcrypt = require('bcrypt-nodejs');
 
-  var local = {
+  /*var local = {
     displayName: {type: String},
     email: {type: String},
     password: {type: String},
     lastLogin: {type: Date},
     products: {type: products},
     active: {type: Boolean}
-  };
+  };*/
   var products = [{
     asin: {type: String}
   }];
@@ -25,7 +25,14 @@ var userSchema = function() {
   };
 
   this.schema = new Schema({
-    local: {type: local},
+    local: {
+      displayName: {type: String},
+      email: {type: String},
+      password: {type: String},
+      lastLogin: {type: Date},
+      products: {type: products},
+      active: {type: Boolean}
+    },
     google: {type: google},
     facebook: {type: facebook}
   });
