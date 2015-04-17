@@ -41,8 +41,8 @@ var userSchema = function() {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
   };
 
-  this.validation = function(password){
-    return bcrypt.compareSync(password, this.local.password);
+  this.validation = function(password, hash){
+    return bcrypt.compareSync(password, hash);
   };
 
   var db = mongoose.createConnection('mongodb://localhost:27017/pennyPincher');

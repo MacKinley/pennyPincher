@@ -2,9 +2,7 @@ var config = require('../initialization')('index_userConfig'),
 
   local = require('passport-local').Strategy,
   UserSchema = config.modules.userModel,
-  User = config.modules.userModel.userModel,
-  passport = config.modules.passport;
-
+  User = config.modules.userModel.userModel;
 
 module.exports = function(passport){
   passport.use('local-signup', new local({

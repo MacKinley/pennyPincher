@@ -13,6 +13,7 @@ var express = config.modules.express,
 	users = config.modules.users;
 
 require('./signup')(passport);
+require('./login')(passport);
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -69,10 +70,11 @@ app.post('/api/users/signup', passport.authenticate('local-signup'),
       res.json(req.user); 
 });
 
-app.post('/api/users/login', passport.authenticate('local-login', {
-	successRedirect:'/api/users/profile',
-	failureRedirect:'/api/users/login'
-}));
+app.post('/api/users/login', passport.authenticate('local-login'),
+	function(req, res){
+		res.json(req.user);
+	}
+);
 
 
 
