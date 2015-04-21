@@ -5,6 +5,7 @@ var config = require('../initialization')('index_userConfig'),
   User = config.modules.userModel.userModel;
 
 module.exports = function(passport){
+
   passport.use('local-signup', new local({
 
     usernameField: 'email',

@@ -25,8 +25,19 @@ var express = config.modules.express,
     passport = config.modules.passport,
     app = express();
 
+var cookieParser = require('cookie-parser');
+var bodyParser   = require('body-parser');
+var session      = require('express-session');
+
+app.use(express.static(__dirname +'/public'));
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(session({ secret: 'doesnteveryonelovenobody',
+  resave: false,
+  saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(product);
 app.use(user);
 
@@ -37,7 +48,6 @@ app.use('/api/*', function(req, res){
 });
 
 // routes all other requests to front end
-app.use(express.static(__dirname +'/public'));
 app.use('*', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });

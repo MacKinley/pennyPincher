@@ -1,3 +1,4 @@
+
 var config = require('../initialization')('index_userConfig'),
 
   local = require('passport-local').Strategy,
@@ -10,7 +11,6 @@ module.exports = function(passport){
 		usernameField: 'email',
 		passwordField: 'password'
 	},
-
 		function(email, password, done){
 			process.nextTick(function() {
 				User.findOne({"local.email": email}, function(err,user){

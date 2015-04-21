@@ -12,7 +12,6 @@
     "cookie-parser": "*",
     "debug": "^2.0.0",
     "express": "~4.9.0",
-    "express-sessions": "*",
     "fs": "*",
     "lodash": "*",
     "mongojs": "*",
