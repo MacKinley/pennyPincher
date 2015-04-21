@@ -148,6 +148,7 @@ img {
 .productThumbnail .thumbnail {
   max-width: 70%;
   padding: 1em;
+  margin-bottom: 0px;
 }
 
 .productThumbnail .btn {
