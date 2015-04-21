@@ -1,5 +1,5 @@
 angular.module('app', ['ngRoute', 'ui.bootstrap',
-    'homepage', 'loginPopup', 'productDetail'])
+    'homepage', 'loginPopup', 'productDetail', 'userOptions'])
 .config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -8,7 +8,8 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
         controller: 'ProductDetail'
       }).
       when('/user/:userId', {
-        templateUrl: './userOpts/userOpts-partial.html'
+        templateUrl: './userOpts/userOpts-partial.html',
+        controller: 'UserOptions'
       }).
       otherwise({
         templateUrl: './homepage/homepage-partial'
