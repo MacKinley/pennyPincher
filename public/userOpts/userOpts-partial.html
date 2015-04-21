@@ -1,0 +1,93 @@
+<h1>Product Subscriptions</h1>
+<div class="row productThumbnails">
+  <div ng-repeat-start="product in products" ng-if="($index+1)%4 == 0"
+      class="clearfix hidden-xs"></div>
+
+  <div ng-repeat-end
+      class="col-xs-12 col-sm-4 productThumbnail">
+    <div class="thumbnail hor-center-block">
+      <a href="/product/{{ product.asin }}">
+        <h4>{{ product.title }}</h4>
+      </a>
+      <a href="/product/{{ product.asin }}">
+        <img ng-src="{{ product.image }}">
+      </a>
+      <a ng-click="unsubscribe('Sign Up')"
+          class="btn btn-primary" role="button">
+        Unsubscribe
+      </a>
+    </div>
+  </div>
+</div>
+
+<h1>Account Settings</h1>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-sm-push-3">
+      <form class="form form-horizontal" ng-submit="updateSettings()">
+        <div class="form-group">
+          <label class="control-label col-sm-5">
+            Email:
+          </label>
+          <div class="col-sm-7">
+            <input ng-model="user.email" type="password"
+                class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-5">
+            Display Name:
+          </label>
+          <div class="col-sm-7">
+            <input ng-model="user.displayName" type="password"
+                class="form-control"  required>
+          </div>
+        </div>
+
+        <div class="form-group hor-center-block">
+          <button class="btn btn-primary" type="submit">
+            Update Account
+          </button>
+        </div>
+      </form>
+
+      <form class="form form-horizontal" ng-submit="updatePassword()">
+        <div class="form-group">
+          <label class="control-label col-sm-5">
+            Current Password:
+          </label>
+          <div class="col-sm-7">
+          <input ng-model="user.password" type="password"
+              class="form-control"  required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-5">
+            New Password:
+          </label>
+          <div class="col-sm-7">
+          <input ng-model="user.newPassword" type="password"
+              class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-5">
+            Confirm New Password:
+          </label>
+          <div class="col-sm-7">
+            <input ng-model="user.comfirmPassword" type="password"
+                class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-group hor-center-block">
+          <button class="btn btn-primary" type="submit">
+            Update Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

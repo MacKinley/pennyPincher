@@ -1,5 +1,5 @@
 angular.module('app', ['ngRoute', 'ui.bootstrap',
-    'homepage', 'loginPopup', 'productDetail', 'productSearch'])
+    'homepage', 'loginPopup', 'productDetail', 'productSearch', 'userOptions'])
 .config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -10,6 +10,10 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
       when('/search/:title', {
         templateUrl: './search/search-partial.html',
         controller: 'ProductSearch'
+      }).
+      when('/user/:userId', {
+        templateUrl: './userOpts/userOpts-partial.html',
+        controller: 'UserOptions'
       }).
       otherwise({
         templateUrl: './homepage/homepage-partial.html'

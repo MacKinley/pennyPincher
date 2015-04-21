@@ -29,6 +29,14 @@
   .logo{
     float: right;
   }
+
+  .productThumbnails {
+    padding: 0em 7em;
+  }
+
+  .productThumbnail img {
+    max-height: 150px;
+  }
 }
 
 input.ng-invalid.ng-touched {
@@ -103,7 +111,7 @@ div.hr {
   padding: 15px 0px;
 }
 
-.logo {
+img {
   max-width: 100%;
 }
 
@@ -132,3 +140,17 @@ div.hr {
   margin-top: 15px;
   margin-bottom: 20px;
 }
+
+.productThumbnail {
+  padding: 1em 0em;
+}
+
+.productThumbnail .thumbnail {
+  max-width: 70%;
+  padding: 1em;
+}
+
+.productThumbnail .btn {
+  margin: 1em 0px;
+}
+
