@@ -10,7 +10,7 @@ var express = config.modules.express,
 	googleStrategy = config.modules.google.Strategy,
 	bodyparser = config.modules.bodyparser,
 	passport = config.modules.passport,
-  User = config.modules.userModel,
+  	User = config.modules.userModel,
 	users = config.modules.users;
 
 require('./signup')(passport);
