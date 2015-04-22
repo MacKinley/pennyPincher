@@ -13,7 +13,6 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
   }
 ])
 .constant('API_ENDPOINT', 'http://localhost:8000/api/')
-
 .service('LoginSignupService', ['$http', 'API_ENDPOINT',
   function($http, apiEndpoint){
     this.signup = function(user){
@@ -33,9 +32,7 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
         error(function(data, status, headers, config){
           console.log('err'+data);
         });
-    }
+    };
   }
 ]);
-
-
 
