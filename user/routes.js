@@ -70,16 +70,19 @@ app.route( facebookRouting.appCallback )
 
 app.post('/api/users/signup', passport.authenticate('local-signup'),
   function(req, res){
-      res.json(req.user); 
-});
-
-app.post('/api/users/login', passport.authenticate('local-login'),
-  function(req, res){
+    req.user.local.password = null;
+    console.log(req.user.toString());
     res.json(req.user);
   }
 );
 
-
+app.post('/api/users/login', passport.authenticate('local-login'),
+  function(req, res){
+    req.user.local.password = null;
+    console.log(req.user.toString());
+    res.json(req.user);
+  }
+);
 
 //***************************************************************************
 //  GET Request

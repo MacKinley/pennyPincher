@@ -25,7 +25,7 @@ module.exports = function(passport){
             // If user is already in the database
             if(user){
               done(null, false);
-          }else{
+            }else{
               var newUser = new User();
               newUser.local.email = email;
               newUser.local.password = UserSchema.generateHash(password);
@@ -43,3 +43,4 @@ module.exports = function(passport){
     }
   ));
 };
+
