@@ -24,6 +24,8 @@ var express = config.modules.express,
     //logger = config.modules.logger,
     app = express();
 
+var cors = require('cors');
+app.use(cors());
 app.use(product);
 app.use(user);
 
