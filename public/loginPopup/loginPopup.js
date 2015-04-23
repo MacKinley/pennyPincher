@@ -6,8 +6,9 @@ angular.module('loginPopup', [])
     };
   }
 ])
-.controller('LoginPopupInstance', ['$scope', '$modalInstance', 'loginType',
-  function($scope, $modalInstance, loginType) {
+
+.controller('LoginPopupInstance', ['$scope', '$modalInstance', 'loginType', 'LoginSignupService',
+  function($scope, $modalInstance, loginType, LoginSignupService){
     $scope.type = loginType;
     $scope.isLoggingIn = ($scope.type === 'Login');
 
@@ -16,16 +17,24 @@ angular.module('loginPopup', [])
       password: ''
     };
 
-    $scope.setType = function (type) {
+    $scope.setType = function (type){
       $scope.type = type;
-    }
+    };
 
-    $scope.loginSignUp = function (type) {
-      // login or sign up depending on type
+// login or sign up depending on type
+
+    $scope.loginSignUp = function (type){
+      
+      if(type == 'Sign Up'){
+        LoginSignupService.signup($scope.user);
+      }
+      else if(type == 'Login'){
+        LoginSignupService.login($scope.user);
+      }
       $modalInstance.dismiss('cancel');
     };
 
-    $scope.cancel = function () {
+    $scope.cancel = function (){
       $modalInstance.dismiss('cancel');
     };
   }

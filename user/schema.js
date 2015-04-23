@@ -1,15 +1,16 @@
 var userSchema = function() {
   var mongoose = require('mongoose'),
       Schema = mongoose.Schema;
+  var bcrypt = require('bcrypt-nodejs');
 
-  var local = {
+  /*var local = {
     displayName: {type: String},
     email: {type: String},
     password: {type: String},
     lastLogin: {type: Date},
     products: {type: products},
     active: {type: Boolean}
-  };
+  };*/
   var products = [{
     asin: {type: String}
   }];
@@ -24,11 +25,28 @@ var userSchema = function() {
   };
 
   this.schema = new Schema({
-    local: {type: local},
+    local: {
+      displayName: {type: String},
+      email: {type: String},
+      password: {type: String},
+      lastLogin: {type: Date},
+      products: {type: products},
+      active: {type: Boolean}
+    },
     google: {type: google},
     facebook: {type: facebook}
   });
-  this.userModel = mongoose.model('User', this.schema);
+
+  this.generateHash = function(password){
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  };
+
+  this.validation = function(password, hash){
+    return bcrypt.compareSync(password, hash);
+  };
+
+  var db = mongoose.createConnection('mongodb://localhost:27017/pennyPincher');
+  this.userModel = db.model('users', this.schema);
 };
 
 module.exports = new userSchema;

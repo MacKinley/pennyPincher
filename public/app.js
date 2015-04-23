@@ -22,6 +22,29 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
   }
 ])
 .constant('API_ENDPOINT', 'http://localhost:8000/api/')
+.service('LoginSignupService', ['$http', 'API_ENDPOINT',
+  function($http, apiEndpoint){
+    this.signup = function(user){
+      $http.post(apiEndpoint+'users/signup', user).
+        success(function(data, status, headers, config){
+          console.log(data);
+        }).
+        error(function(data, status, headers, config){ 
+          console.log('err');
+        });
+    };
+
+    this.login = function(user){
+      $http.post(apiEndpoint+'users/login', user).
+        success(function(data, status, headers, config){
+          console.log(data);
+        }).
+        error(function(data, status, headers, config){
+          console.log('err'+data);
+        });
+    };
+  }
+])
 .service('ProductService', ['$http', 'API_ENDPOINT',
   function($http, apiEndpoint){
     this.getProduct = function(asin, callback){
@@ -44,13 +67,13 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
   }
 ])
 .service('PopupService', ['$modal',
-  function($modal) {
+  function($modal){
     this.open = function(type){
       var modalInstance = $modal.open({
         templateUrl: 'loginPopup/loginPopup-partial.html',
         controller: 'LoginPopupInstance',
         resolve: {
-          loginType: function () {
+          loginType: function(){
             return type;
           }
         }

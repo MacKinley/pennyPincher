@@ -53,7 +53,8 @@ var appConfig = function(){
     // logger: require('./logger'),
     client: require('./client/routes'),
     product: require('./product/routes'),
-    user: require('./user/routes')
+    user: require('./user/routes'),
+    passport: require('passport')
   };
   this.render = {
     viewsDirectory:
@@ -105,7 +106,6 @@ var loggerConfig = function(){
 };
 
 var index_userConfig = function() {
-
   var schemaConfig = {
     modules: {
       mongoose: require('mongoose')
@@ -162,10 +162,10 @@ var index_userConfig = function() {
     passport: require('passport'),
     facebook: require('passport-facebook'),
     google: require('passport-google'),
-    bodyparser: require('body-parser'),
     promise: require('bluebird'),
-    session: require('express-sessions'),
+    bodyparser: require('body-parser'),
     cookieparser: require('cookie-parser'),
+    userModel: require('./user/schema'),
     users: require('./user/users')(userConfig)
   };
 };
