@@ -75,7 +75,7 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
 .service('ProductService', ['$http', 'API_ENDPOINT',
   function($http, apiEndpoint){
     this.getProduct = function(asin, callback){
-      $http.get(apiEndpoint + 'product:' + asin)
+      $http.get(apiEndpoint + 'product/:' + asin)
       .success(function(data){
         callback(null, data);
       }).error(function(data){
@@ -84,7 +84,7 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
     };
 
     this.searchByTitle = function(title, callback){
-      $http.get(apiEndpoint + 'searchFor:' + title)
+      $http.get(apiEndpoint + 'searchFor/:' + title)
       .success(function(data){
         callback(null, data);
       }).error(function(data){

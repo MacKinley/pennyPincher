@@ -34,7 +34,7 @@ app.route( '/api/product/all' )
 //		Returns a product based on the asin 
 //***************************************************************************
 
-app.route('/api/product:asin')
+app.route('/api/product/:asin')
 .get(function(req, res){
   console.log('routing product');
   products.findProductFromASIN(req.params.asin)
@@ -52,7 +52,7 @@ app.route('/api/product:asin')
 //		Returns the price history of a product based on the asin
 //***************************************************************************
 
-app.route( '/api/product/prices:asin' )
+app.route( '/api/product/prices/:asin' )
 .get(function(req, res){
   products.getProductPricesFromASIN(req.params.asin)
   .then(function(productPrices){
@@ -69,7 +69,7 @@ app.route( '/api/product/prices:asin' )
 //		Returns a product based on the product title
 //***************************************************************************
 
-app.route('/api/searchFor:title')
+app.route('/api/searchFor/:title')
 .get(function(req, res){
   console.log('routing search');
   products.getProductsWithTitle(req.params.title)

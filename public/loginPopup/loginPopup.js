@@ -1,10 +1,11 @@
 angular.module('loginPopup', [])
-.controller('LoginPopup', ['$scope', 'PopupService', 'UserStorage', 'LoginSignupService',
+.controller('HeaderOptions', ['$scope', 'PopupService', 'UserStorage', 'LoginSignupService',
   function($scope, PopupService, UserStorage, LoginSignupService) {
     $scope.user = UserStorage;
 
     // check if user is logged in
     LoginSignupService.updateStatus();
+
     $scope.open = function(type){
       PopupService.open(type);
     };
