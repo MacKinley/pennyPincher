@@ -22,12 +22,21 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
   }
 ])
 .constant('API_ENDPOINT', 'http://localhost:8000/api/')
-.service('LoginSignupService', ['$http', 'API_ENDPOINT',
-  function($http, apiEndpoint){
+.factory('UserStorage', [function(){
+  var userInfo = {
+    isLoggedIn : false,
+    info : {}
+  };
+
+  return userInfo;
+}])
+.service('LoginSignupService', ['$http', 'API_ENDPOINT', 'UserStorage',
+  function($http, apiEndpoint, UserStorage){
     this.signup = function(user){
       $http.post(apiEndpoint+'users/signup', user).
         success(function(data, status, headers, config){
-          console.log(data);
+          UserStorage.isLoggedIn = true;
+          UserStorage.info = data;
         }).
         error(function(data, status, headers, config){ 
           console.log('err');
@@ -37,11 +46,29 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
     this.login = function(user){
       $http.post(apiEndpoint+'users/login', user).
         success(function(data, status, headers, config){
-          console.log(data);
+          UserStorage.isLoggedIn = true;
+          UserStorage.info = data;
+          console.log(UserStorage);
         }).
         error(function(data, status, headers, config){
           console.log('err'+data);
         });
+    };
+
+    this.logout = function(){
+      $http.get(apiEndpoint+'users/logout')
+        .success(function(data, status, headers, config){
+          UserStorage.isLoggedIn = false;
+          UserStorage.info = {};
+        })
+    };
+
+    this.updateStatus = function(){
+      $http.get(apiEndpoint+'users/status')
+      .success(function(data, status, headers, config){
+        UserStorage.isLoggedIn = data.loggedIn;
+        UserStorage.info = data.user;
+      });
     };
   }
 ])

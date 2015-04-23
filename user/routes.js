@@ -2,16 +2,16 @@ var config = require('../initialization')('index_userConfig');
 
 
 var express = config.modules.express, 
-  facebook = config.facebook,
-  facebookRouting = config.facebook.routing,
-  facebookStrategy = config.modules.facebook.Strategy,
-  google = config.google,
-  googleRouting = config.google.routing,
-  googleStrategy = config.modules.google.Strategy,
-  bodyparser = config.modules.bodyparser,
-  passport = config.modules.passport,
-  User = config.modules.userModel,
-  users = config.modules.users;
+    facebook = config.facebook,
+    facebookRouting = config.facebook.routing,
+    facebookStrategy = config.modules.facebook.Strategy,
+    google = config.google,
+    googleRouting = config.google.routing,
+    googleStrategy = config.modules.google.Strategy,
+    bodyparser = config.modules.bodyparser,
+    passport = config.modules.passport,
+    User = config.modules.userModel.userModel,
+    users = config.modules.users;
 
 require('./signup')(passport);
 require('./login')(passport);
@@ -22,7 +22,7 @@ require('./login')(passport);
   });
 
   passport.deserializeUser(function(id, done){
-    user.userModel.findOne(id, function(err, user){
+    User.findOne(id, function(err, user){
       done(err, user);
     });
   });
@@ -53,10 +53,7 @@ passport.use(new googleStrategy({
   })
 );
 
-
-
 var app = module.exports = express();
-
 
 app.route( facebookRouting.appRouter )
 .get(passport.authenticate('facebook'));
@@ -71,7 +68,6 @@ app.route( facebookRouting.appCallback )
 app.post('/api/users/signup', passport.authenticate('local-signup'),
   function(req, res){
     req.user.local.password = null;
-    console.log(req.user.toString());
     res.json(req.user);
   }
 );
@@ -79,10 +75,30 @@ app.post('/api/users/signup', passport.authenticate('local-signup'),
 app.post('/api/users/login', passport.authenticate('local-login'),
   function(req, res){
     req.user.local.password = null;
-    console.log(req.user.toString());
     res.json(req.user);
   }
 );
+
+app.get('/api/users/logout', function(req, res){
+  req.logout();
+  console.log('loggedOut');
+  res.redirect('/');
+});
+
+app.get('/api/users/status', function(req, res){
+  if(req.user){
+    req.user.local.password = null;
+    res.json({
+      'loggedIn': true,
+      'user':     req.user
+    });
+  }else{
+    res.json({
+      'loggedIn': false,
+      'user':     {}
+    });
+  }
+});
 
 //***************************************************************************
 //  GET Request

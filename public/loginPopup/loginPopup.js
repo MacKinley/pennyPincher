@@ -1,16 +1,22 @@
 angular.module('loginPopup', [])
-.controller('LoginPopup', ['$scope', 'PopupService',
-  function($scope, PopupService) {
+.controller('LoginPopup', ['$scope', 'PopupService', 'UserStorage', 'LoginSignupService',
+  function($scope, PopupService, UserStorage, LoginSignupService) {
+    $scope.user = UserStorage;
+
+    // check if user is logged in
+    LoginSignupService.updateStatus();
     $scope.open = function(type){
       PopupService.open(type);
     };
+
+    $scope.logout = function(){
+      LoginSignupService.logout();
+    };
   }
 ])
-
 .controller('LoginPopupInstance', ['$scope', '$modalInstance', 'loginType', 'LoginSignupService',
   function($scope, $modalInstance, loginType, LoginSignupService){
     $scope.type = loginType;
-    $scope.isLoggingIn = ($scope.type === 'Login');
 
     $scope.user = {
       email: '',
@@ -21,10 +27,8 @@ angular.module('loginPopup', [])
       $scope.type = type;
     };
 
-// login or sign up depending on type
-
+    // login or sign up depending on type
     $scope.loginSignUp = function (type){
-      
       if(type == 'Sign Up'){
         LoginSignupService.signup($scope.user);
       }
