@@ -1,4 +1,4 @@
-angular.module('loginPopup', [])
+angular.module('authentication', [])
 .controller('HeaderOptions', ['$scope', 'PopupService', 'UserStorage', 'LoginSignupService',
   function($scope, PopupService, UserStorage, LoginSignupService) {
     $scope.user = UserStorage;

@@ -85,6 +85,64 @@ app.get('/api/users/logout', function(req, res){
   res.redirect('/');
 });
 
+app.post('/api/users/addSubscription', function(req, res){
+  if(req.user){
+    var asin = req.body.asin;
+    User.findOneAndUpdate(
+      {"local.email": req.user.local.email},
+      {$push: {"local.products": asin}},
+      {"new": true},
+      function(err, user){
+      if(err){
+        res.json({
+          "err": err,
+          "user": null
+        });
+      }else{
+        user.local.password = null;
+        res.json({
+          "err": null,
+          "user": user
+        });
+      }
+    });
+  }else{
+    res.json({
+      "err": "notLoggedIn",
+      "user": null
+    });
+  }
+});
+
+app.post('/api/users/removeSubscription', function(req, res){
+  if(req.user){
+    var asin = req.body.asin;
+    User.findOneAndUpdate(
+      {"local.email": req.user.local.email},
+      {$pull: {"local.products": asin}},
+      {"new": true},
+      function(err, user){
+      if(err){
+        res.json({
+          "err": err,
+          "user": null
+        });
+      }else{
+        user.local.password = null;
+        res.json({
+          "err": null,
+          "user": user
+        });
+      }
+    });
+  }else{
+    res.json({
+      "err": "notLoggedIn",
+      "user": null
+    });
+  }
+});
+
 app.get('/api/users/status', function(req, res){
   if(req.user){
     req.user.local.password = null;
@@ -95,26 +153,13 @@ app.get('/api/users/status', function(req, res){
   }else{
     res.json({
       'loggedIn': false,
-      'user':     {}
+      'user':     {
+        local: {
+          products: []
+        }
+      }
     });
   }
-});
-
-//***************************************************************************
-//  GET Request
-//    /api/users/all
-//    Returns all users stored in the database to the client
-//***************************************************************************
-
-app.route( '/api/users/all' )
-.get( function ( req, res ) {
-  users.getAllUsers()
-  .then( function ( userList ) {
-    res.json(userList);
-  })
-  .catch( function ( error ) {
-    res.status(400).json(error);
-  });
 });
 
 //***************************************************************************

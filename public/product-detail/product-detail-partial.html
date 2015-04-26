@@ -13,8 +13,9 @@
 </div><!-- end img and graph -->
 <div class="row subscribe-btn">
   <div class="col-xs-12">
-    <button class="btn btn-primary hor-center-block"
-      type="button" ng-click="subscribe(product.asin)">Subscribe</button>
+    <button ng-if="!isSubscribed(product.asin)"
+        class="btn btn-primary hor-center-block"
+        type="button" ng-click="subscribe(product.asin)">Subscribe</button>
   </div>
 </div>
 

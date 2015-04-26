@@ -1,24 +1,24 @@
 angular.module('app', ['ngRoute', 'ui.bootstrap',
-    'homepage', 'loginPopup', 'productDetail', 'productSearch', 'userOptions'])
+    'homepage', 'authentication', 'productDetail', 'productSearch', 'userOptions'])
 .config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
-      when('/product/:asin', {
-        templateUrl: './product-detail/product-detail-partial.html',
-        controller: 'ProductDetail'
-      }).
-      when('/search/:title', {
-        templateUrl: './search/search-partial.html',
-        controller: 'ProductSearch'
-      }).
-      when('/user/:userId', {
-        templateUrl: './userOpts/userOpts-partial.html',
-        controller: 'UserOptions'
-      }).
-      otherwise({
-        templateUrl: './homepage/homepage-partial.html'
-      });
-      $locationProvider.html5Mode(true);
+    when('/product/:asin', {
+      templateUrl: './product-detail/product-detail-partial.html',
+      controller: 'ProductDetail'
+    }).
+    when('/search/:title', {
+      templateUrl: './search/search-partial.html',
+      controller: 'ProductSearch'
+    }).
+    when('/user/:userId', {
+      templateUrl: './userOpts/userOpts-partial.html',
+      controller: 'UserOptions'
+    }).
+    otherwise({
+      templateUrl: './homepage/homepage-partial.html'
+    });
+    $locationProvider.html5Mode(true);
   }
 ])
 .constant('API_ENDPOINT', 'http://localhost:8000/api/')
@@ -27,7 +27,6 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
     isLoggedIn : false,
     info : {}
   };
-
   return userInfo;
 }])
 .service('LoginSignupService', ['$http', 'API_ENDPOINT', 'UserStorage',
@@ -48,6 +47,7 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
         success(function(data, status, headers, config){
           UserStorage.isLoggedIn = true;
           UserStorage.info = data;
+          console.log(data);
           console.log(UserStorage);
         }).
         error(function(data, status, headers, config){
@@ -59,7 +59,11 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
       $http.get(apiEndpoint+'users/logout')
         .success(function(data, status, headers, config){
           UserStorage.isLoggedIn = false;
-          UserStorage.info = {};
+          UserStorage.info = {
+            local:{
+              products: []
+            }
+          };
         })
     };
 
@@ -72,10 +76,31 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
     };
   }
 ])
+.service('UserService', ['$http', 'API_ENDPOINT', 'UserStorage',
+  function($http, apiEndpoint, user){
+    this.addSubscription = function(asin, callback){
+      $http.post(apiEndpoint + 'users/addSubscription', {'asin': asin})
+      .success(function(data){
+        callback(null, data);
+      }).error(function(data){
+        callback(data, null);
+      });
+    };
+
+    this.removeSubscription = function(asin, callback){
+      $http.post(apiEndpoint + 'users/removeSubscription', {'asin': asin})
+      .success(function(data){
+        callback(null, data);
+      }).error(function(data){
+        callback(data, null);
+      });
+    };
+  }
+])
 .service('ProductService', ['$http', 'API_ENDPOINT',
   function($http, apiEndpoint){
     this.getProduct = function(asin, callback){
-      $http.get(apiEndpoint + 'product/:' + asin)
+      $http.get(apiEndpoint + 'product/' + asin)
       .success(function(data){
         callback(null, data);
       }).error(function(data){
@@ -84,7 +109,7 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
     };
 
     this.searchByTitle = function(title, callback){
-      $http.get(apiEndpoint + 'searchFor/:' + title)
+      $http.get(apiEndpoint + 'searchFor/' + title)
       .success(function(data){
         callback(null, data);
       }).error(function(data){

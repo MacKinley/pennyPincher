@@ -11,9 +11,6 @@ var userSchema = function() {
     products: {type: products},
     active: {type: Boolean}
   };*/
-  var products = [{
-    asin: {type: String}
-  }];
   var google = {
     id: {type: String}
   };
@@ -30,7 +27,7 @@ var userSchema = function() {
       email: {type: String},
       password: {type: String},
       lastLogin: {type: Date},
-      products: {type: products},
+      products: [],
       active: {type: Boolean}
     },
     google: {type: google},
