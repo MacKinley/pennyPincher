@@ -38,7 +38,6 @@ var Product = function(productConfig){
   };
 
   methods.getProductsWithTitle = function(productTitle){
-    productTitle = productTitle.substring(1);
     return new Promise(function(resolve, reject){
       if(_.isNull(productTitle)){
         reject({
@@ -63,7 +62,6 @@ var Product = function(productConfig){
   };
 
   methods.findProductFromASIN = function(productASIN){
-    productASIN = productASIN.substring(1);
     return new Promise(function(resolve, reject){
       console.log('finding');
       Product.findOne({'asin':productASIN}, function(err, product){

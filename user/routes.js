@@ -2,16 +2,16 @@ var config = require('../initialization')('index_userConfig');
 
 
 var express = config.modules.express, 
-  facebook = config.facebook,
-  facebookRouting = config.facebook.routing,
-  facebookStrategy = config.modules.facebook.Strategy,
-  google = config.google,
-  googleRouting = config.google.routing,
-  googleStrategy = config.modules.google.Strategy,
-  bodyparser = config.modules.bodyparser,
-  passport = config.modules.passport,
-  User = config.modules.userModel,
-  users = config.modules.users;
+    facebook = config.facebook,
+    facebookRouting = config.facebook.routing,
+    facebookStrategy = config.modules.facebook.Strategy,
+    google = config.google,
+    googleRouting = config.google.routing,
+    googleStrategy = config.modules.google.Strategy,
+    bodyparser = config.modules.bodyparser,
+    passport = config.modules.passport,
+    User = config.modules.userModel.userModel,
+    users = config.modules.users;
 
 require('./signup')(passport);
 require('./login')(passport);
@@ -22,7 +22,7 @@ require('./login')(passport);
   });
 
   passport.deserializeUser(function(id, done){
-    user.userModel.findOne(id, function(err, user){
+    User.findOne(id, function(err, user){
       done(err, user);
     });
   });
@@ -53,10 +53,7 @@ passport.use(new googleStrategy({
   })
 );
 
-
-
 var app = module.exports = express();
-
 
 app.route( facebookRouting.appRouter )
 .get(passport.authenticate('facebook'));
@@ -71,7 +68,6 @@ app.route( facebookRouting.appCallback )
 app.post('/api/users/signup', passport.authenticate('local-signup'),
   function(req, res){
     req.user.local.password = null;
-    console.log(req.user.toString());
     res.json(req.user);
   }
 );
@@ -79,26 +75,91 @@ app.post('/api/users/signup', passport.authenticate('local-signup'),
 app.post('/api/users/login', passport.authenticate('local-login'),
   function(req, res){
     req.user.local.password = null;
-    console.log(req.user.toString());
     res.json(req.user);
   }
 );
 
-//***************************************************************************
-//  GET Request
-//    /api/users/all
-//    Returns all users stored in the database to the client
-//***************************************************************************
+app.get('/api/users/logout', function(req, res){
+  req.logout();
+  console.log('loggedOut');
+  res.redirect('/');
+});
 
-app.route( '/api/users/all' )
-.get( function ( req, res ) {
-  users.getAllUsers()
-  .then( function ( userList ) {
-    res.json(userList);
-  })
-  .catch( function ( error ) {
-    res.status(400).json(error);
-  });
+app.post('/api/users/addSubscription', function(req, res){
+  if(req.user){
+    var asin = req.body.asin;
+    User.findOneAndUpdate(
+      {"local.email": req.user.local.email},
+      {$push: {"local.products": asin}},
+      {"new": true},
+      function(err, user){
+      if(err){
+        res.json({
+          "err": err,
+          "user": null
+        });
+      }else{
+        user.local.password = null;
+        res.json({
+          "err": null,
+          "user": user
+        });
+      }
+    });
+  }else{
+    res.json({
+      "err": "notLoggedIn",
+      "user": null
+    });
+  }
+});
+
+app.post('/api/users/removeSubscription', function(req, res){
+  if(req.user){
+    var asin = req.body.asin;
+    User.findOneAndUpdate(
+      {"local.email": req.user.local.email},
+      {$pull: {"local.products": asin}},
+      {"new": true},
+      function(err, user){
+      if(err){
+        res.json({
+          "err": err,
+          "user": null
+        });
+      }else{
+        user.local.password = null;
+        res.json({
+          "err": null,
+          "user": user
+        });
+      }
+    });
+  }else{
+    res.json({
+      "err": "notLoggedIn",
+      "user": null
+    });
+  }
+});
+
+app.get('/api/users/status', function(req, res){
+  if(req.user){
+    req.user.local.password = null;
+    res.json({
+      'loggedIn': true,
+      'user':     req.user
+    });
+  }else{
+    res.json({
+      'loggedIn': false,
+      'user':     {
+        local: {
+          products: []
+        }
+      }
+    });
+  }
 });
 
 //***************************************************************************

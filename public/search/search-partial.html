@@ -11,10 +11,12 @@
       <a href="/product/{{ product.asin }}">
         <img ng-src="{{ product.image }}">
       </a>
-      <a ng-click="subscribe('Sign Up')"
-          class="btn btn-primary" role="button">
-        Subscribe
-      </a>
+      <button ng-if="!isSubscribed(product.asin)"
+          class="btn btn-primary"
+          type="button" ng-click="subscribe(product.asin)">Subscribe</button>
+      <button ng-if="isSubscribed(product.asin)"
+          class="btn btn-danger"
+          type="button" ng-click="unsubscribe(product.asin)">Unsubscribe</button>
     </div>
   </div>
 </div>
