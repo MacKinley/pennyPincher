@@ -1,8 +1,8 @@
 {
-  "name": "product_manager",
+  "name": "scaper_manager",
   "version": "0.1.0",
   "description": "Starts the productUpdater and discoverer.",
-  "main": "productManager.js",
+  "main": "scraperManager.js",
   "author": "MacKinley Trudeau",
   "devDependencies": {
     "chai": "^1.10.0",

@@ -13,7 +13,7 @@ MongoClient.connect(url, function(err, db) {
     // I suppose this doesn't really need to be a child process
     // if its not part of the server but the event listeners below will be
     // turned into callbacks and parameter if statements
-    var manager = child.fork('../scraper/scraper/productManager/productManager');
+    var manager = child.fork('./scraperManager/scraperManager');
 
     var updatingProduct;
 
@@ -25,7 +25,7 @@ MongoClient.connect(url, function(err, db) {
         productStream.on("data", function(product){
             // pause stream
             productStream.pause();
-            
+
             updatingProduct = product;
 
             console.log(((new Date()).toString())+"got from db: "+updatingProduct.asin);
