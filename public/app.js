@@ -1,5 +1,5 @@
 angular.module('app', ['ngRoute', 'ui.bootstrap',
-    'homepage', 'authentication', 'productDetail', 'productSearch', 'userOptions'])
+    'homepage', 'authentication', 'productDetail', 'productSearch', 'userSettings'])
 .config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
@@ -11,9 +11,9 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
       templateUrl: './search/search-partial.html',
       controller: 'ProductSearch'
     }).
-    when('/user/:userId', {
-      templateUrl: './userOpts/userOpts-partial.html',
-      controller: 'UserOptions'
+    when('/user', {
+      templateUrl: './userSettings/userSettings-partial.html',
+      controller: 'UserSettings'
     }).
     otherwise({
       templateUrl: './homepage/homepage-partial.html'
@@ -91,6 +91,27 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
       $http.post(apiEndpoint + 'users/removeSubscription', {'asin': asin})
       .success(function(data){
         callback(null, data);
+      }).error(function(data){
+        callback(data, null);
+      });
+    };
+
+    this.updateEmail = function(newEmail, callback){
+      $http.post(apiEndpoint + 'users/updateEmail', {'newEmail': newEmail})
+      .success(function(data){
+        callback(null, data);
+      }).error(function(data){
+        callback(data, null);
+      });
+    };
+
+    this.updatePassword = function(currentPassword, newPassword, callback){
+      $http.post(apiEndpoint + 'users/updatePassword', {
+        'currentPassword' : currentPassword,
+        'newPassword'     : newPassword
+      })
+      .success(function(data){
+        callback(data.err, data.user);
       }).error(function(data){
         callback(data, null);
       });

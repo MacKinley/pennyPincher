@@ -10,7 +10,8 @@ var express = config.modules.express,
     googleStrategy = config.modules.google.Strategy,
     bodyparser = config.modules.bodyparser,
     passport = config.modules.passport,
-    User = config.modules.userModel.userModel,
+    UserSchema = config.modules.userModel,
+    User = UserSchema.userModel,
     users = config.modules.users;
 
 require('./signup')(passport);
@@ -138,6 +139,76 @@ app.post('/api/users/removeSubscription', function(req, res){
   }else{
     res.json({
       "err": "notLoggedIn",
+      "user": null
+    });
+  }
+});
+
+app.post('/api/users/updateEmail', function(req, res){
+  if(req.user){
+    var newEmail = req.body.newEmail;
+    User.findOneAndUpdate(
+      {"local.email": req.user.local.email},
+      {$set: {"local.email": newEmail}},
+      {"new": true},
+      function(err, user){
+      if(err){
+        req.user.local.password = null;
+        res.json({
+          "err": err,
+          "user": req.user
+        });
+      }else{
+        user.local.password = null;
+        res.json({
+          "err": null,
+          "user": user
+        });
+      }
+    });
+  }else{
+    res.json({
+      "err": 'notLoggedIn',
+      "user": null
+    });
+  }
+});
+
+app.post('/api/users/updatePassword', function(req, res){
+  if(req.user){
+    var currentPassword = req.body.currentPassword;
+    var newPassword = req.body.newPassword;
+
+    if(UserSchema.validation(currentPassword, req.user.local.password)){
+      User.findOneAndUpdate(
+        {"local.email": req.user.local.email},
+        {$set: {"local.password": UserSchema.generateHash(newPassword)}},
+        {"new": true},
+        function(err, user){
+        if(err){
+          req.user.local.password = null;
+          res.json({
+            "err": err,
+            "user": req.user
+          });
+        }else{
+          user.local.password = null;
+          res.json({
+            "err": null,
+            "user": user
+          });
+        }
+      });
+    }else{
+      //password incorrect
+      res.json({
+        "err": 'incorrectPassword',
+        "user": null
+      });
+    }
+  }else{
+    res.json({
+      "err": 'notLoggedIn',
       "user": null
     });
   }

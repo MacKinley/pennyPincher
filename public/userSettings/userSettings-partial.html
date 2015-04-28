@@ -12,10 +12,12 @@
       <a href="/product/{{ product.asin }}">
         <img ng-src="{{ product.image }}">
       </a>
-      <a ng-click="unsubscribe('Sign Up')"
-          class="btn btn-primary" role="button">
-        Unsubscribe
-      </a>
+      <button ng-if="!isSubscribed(product.asin)"
+          class="btn btn-primary"
+          type="button" ng-click="subscribe(product.asin)">Subscribe</button>
+      <button ng-if="isSubscribed(product.asin)"
+          class="btn btn-danger"
+          type="button" ng-click="unsubscribe(product.asin)">Unsubscribe</button>
     </div>
   </div>
 </div>
@@ -29,24 +31,14 @@
             Email:
           </label>
           <div class="col-sm-7">
-            <input ng-model="user.email" type="password"
-                class="form-control" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="control-label col-sm-5">
-            Display Name:
-          </label>
-          <div class="col-sm-7">
-            <input ng-model="user.displayName" type="password"
-                class="form-control"  required>
+            <input ng-model="user.newEmail" placeholder="{{ user.currentEmail }}"
+                type="email" class="form-control" required>
           </div>
         </div>
 
         <div class="form-group hor-center-block">
           <button class="btn btn-primary" type="submit">
-            Update Account
+            Update Email
           </button>
         </div>
       </form>
@@ -57,7 +49,7 @@
             Current Password:
           </label>
           <div class="col-sm-7">
-          <input ng-model="user.password" type="password"
+          <input ng-model="user.currentPassword" type="password"
               class="form-control"  required>
           </div>
         </div>

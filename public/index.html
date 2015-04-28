@@ -22,8 +22,8 @@
             class="btn-group btn-group-sm">
           <button type="button" ng-if="user.isLoggedIn" ng-click="logout()"
               class="btn btn-default login-opt">Logout</button>
-          <button type="button" ng-if="user.isLoggedIn" ng-click="open('Sign Up')"
-              class="btn btn-default login-opt">Settings</button>
+          <a type="button" ng-if="user.isLoggedIn" href="./user/"
+              class="btn btn-default login-opt">Settings</a>
           <button type="button" ng-if="!(user.isLoggedIn)" ng-click="open('Login')"
               class="btn btn-default login-opt">Login</button>
           <button type="button" ng-if="!(user.isLoggedIn)" ng-click="open('Sign Up')"
@@ -81,7 +81,7 @@
 <script src="product-detail/product-detail.js"></script>
 <script src="search/search.js"></script>
 <script src="./app.js"></script>
-<script src="userOpts/UserOptions.js"></script>
+<script src="userSettings/UserSettings.js"></script>
 </body>
 </html>
 
