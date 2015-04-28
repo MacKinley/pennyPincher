@@ -98,15 +98,22 @@ angular.module('userSettings', [])
 
     $scope.updatePassword = function(){
       // validate first new password field
-      // confirm password match
-      UserService.updatePassword(
-          $scope.user.currentPassword, $scope.user.newPassword, function(err, data){
-        if(!err){
-
-        }else{
-
-        }
-      });
+      // confirm passwords match
+      if($scope.user.newPassword === $scope.user.confirmPassword){
+        UserService.updatePassword(
+            $scope.user.currentPassword, $scope.user.newPassword,
+        function(err, data){
+          if(!err){
+            console.log(err);
+          }else{
+            $scope.user.currentPassword = '';
+            $scope.user.newPassword = '';
+            $scope.user.confirmPassword = '';
+          }
+        });
+      }else{
+        console.log('passwords do not match');
+      }
     };
   }
 ]);

@@ -90,7 +90,7 @@ app.post('/api/users/addSubscription', function(req, res){
   if(req.user){
     var asin = req.body.asin;
     User.findOneAndUpdate(
-      {"local.email": req.user.local.email},
+      {"local.email": req.user.local.email.toLowerCase()},
       {$push: {"local.products": asin}},
       {"new": true},
       function(err, user){
@@ -119,7 +119,7 @@ app.post('/api/users/removeSubscription', function(req, res){
   if(req.user){
     var asin = req.body.asin;
     User.findOneAndUpdate(
-      {"local.email": req.user.local.email},
+      {"local.email": req.user.local.email.toLowerCase()},
       {$pull: {"local.products": asin}},
       {"new": true},
       function(err, user){
@@ -146,10 +146,10 @@ app.post('/api/users/removeSubscription', function(req, res){
 
 app.post('/api/users/updateEmail', function(req, res){
   if(req.user){
-    var newEmail = req.body.newEmail;
+    var newEmail = req.body.newEmail.toLowerCase();
     User.findOneAndUpdate(
-      {"local.email": req.user.local.email},
-      {$set: {"local.email": newEmail}},
+      {"local.email": req.user.local.email.toLowerCase()},
+      {$set: {"local.email": newEmail.toLowerCase()}},
       {"new": true},
       function(err, user){
       if(err){
@@ -181,7 +181,7 @@ app.post('/api/users/updatePassword', function(req, res){
 
     if(UserSchema.validation(currentPassword, req.user.local.password)){
       User.findOneAndUpdate(
-        {"local.email": req.user.local.email},
+        {"local.email": req.user.local.email.toLowerCase()},
         {$set: {"local.password": UserSchema.generateHash(newPassword)}},
         {"new": true},
         function(err, user){

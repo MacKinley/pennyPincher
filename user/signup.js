@@ -15,7 +15,7 @@ module.exports = function(passport){
     // Function to create new user 
     function(req, email, password, done){
       process.nextTick(function() {
-        User.findOne({"local.email" : email}, function(err,user){
+        User.findOne({"local.email" : email.toLowerCase()}, function(err,user){
           if (err){
             res.json({
               type: false,
@@ -27,7 +27,7 @@ module.exports = function(passport){
               done(null, false);
             }else{
               var newUser = new User();
-              newUser.local.email = email;
+              newUser.local.email = email.toLowerCase();
               newUser.local.password = UserSchema.generateHash(password);
               newUser.save(function(err){
                 if(err){
