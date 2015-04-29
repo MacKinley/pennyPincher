@@ -13,6 +13,8 @@ var options = process.argv[2];
                     "product" : productResponse.product
                 }
             );
+        }else{
+          console.log(((new Date()).toString())+"no discovery");
         }
     }else{
         console.error(err);
