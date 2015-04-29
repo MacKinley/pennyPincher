@@ -21,7 +21,8 @@ angular.module('authentication', [])
 
     $scope.user = {
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     };
 
     $scope.setType = function (type){
@@ -31,12 +32,17 @@ angular.module('authentication', [])
     // login or sign up depending on type
     $scope.loginSignUp = function (type){
       if(type == 'Sign Up'){
-        LoginSignupService.signup($scope.user);
+        if($scope.user.password === $scope.user.confirmPassword){
+          LoginSignupService.signup($scope.user);
+          $modalInstance.dismiss('cancel');
+        }else{
+          console.log('passwords do not match');
+        }
       }
       else if(type == 'Login'){
         LoginSignupService.login($scope.user);
+        $modalInstance.dismiss('cancel');
       }
-      $modalInstance.dismiss('cancel');
     };
 
     $scope.cancel = function (){

@@ -38,7 +38,7 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
           UserStorage.info = data;
         }).
         error(function(data, status, headers, config){ 
-          console.log('err');
+          console.log(data);
         });
     };
 
