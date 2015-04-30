@@ -27,20 +27,22 @@ var userSchema = function() {
       displayName: {type: String},
       email: {type: String},
       password: {type: String},
+      newUserHash: {type: String}, 
       lastLogin: {type: Date},
       products: [],
+      verified: {type: Boolean, default: false},
       active: {type: Boolean}
     },
     google: {type: google},
     facebook: {type: facebook}
   });
 
-  this.generateHash = function(password){
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  this.generateHash = function(str){
+    return bcrypt.hashSync(str, bcrypt.genSaltSync(8), null);
   };
 
-  this.validation = function(password, hash){
-    return bcrypt.compareSync(password, hash);
+  this.validation = function(str, hash){
+    return bcrypt.compareSync(str, hash);
   };
 
   this.userModel = db.model('users', this.schema);

@@ -86,6 +86,43 @@ app.get('/api/users/logout', function(req, res){
   res.redirect('/');
 });
 
+app.get('/api/users/verify/:email/:hash', 
+  function( req, res ){
+    User.findOne({"local.email" : req.params.email}, function(err, user){
+      if(err){
+        console.log(err);
+        res.json(
+          {"err": err,
+          "success": false}
+        );
+      }else if(user.local.newUserHash === req.params.hash){
+        console.log("verified email of new client");
+        user.local.verified = true;
+        user.save(function(err){
+          if(!err){
+            res.json(
+              {"err": null, 
+              "success": true}
+            );
+          }else{
+            res.json(
+              {"err": err,
+              "success": false}
+            );
+          }
+        });
+      }
+    });
+  }
+);
+
+
+//***************************************************************************
+//  GET Request
+//    /api/users/all
+//    Returns all users stored in the database to the client
+//***************************************************************************
+
 app.post('/api/users/addSubscription', function(req, res){
   if(req.user){
     var asin = req.body.asin;
