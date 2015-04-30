@@ -28,10 +28,14 @@ describe('#manager tests', function() {
     this.timeout(60000);
 
     before(function(done){
-        manager = child.fork('../productManager')
+        manager = child.fork('./scraperManager')
 
         manager.on('message', function(data){
             if(data.type === 'update'){
+                productStream.resume();
+            }
+
+            if(data.type === 'updateErr'){
                 productStream.resume();
             }
 

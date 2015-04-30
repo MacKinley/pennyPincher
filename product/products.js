@@ -3,7 +3,7 @@ var Product = function(productConfig){
     mongoose  = productConfig.modules.mongoose,
     _         = productConfig.modules.lodash,
     Promise   = productConfig.modules.promise,
-    scraper   = require('../scraper/scraper/scraper');
+    scraper   = require('../scraper/scraper');
 
   thresholds = {
     document: {

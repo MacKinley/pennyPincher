@@ -1,4 +1,4 @@
-var scrape = require('../scraper/scraper').scrape;
+var scrape = require('./scraper').scrape;
 var Sequence = require('sequence').Sequence,
     sequence = Sequence.create();
 
@@ -33,6 +33,7 @@ function discoveryHelper(pauseLength, callback){
   if(!stopped){
     setTimeout(function(){
       createProductURL(function(url){
+        console.log((new Date()).toString() + "discovering at: "+url);
         scrape(url, recursiveCB);
       });
     }, pauseLength);
@@ -68,8 +69,8 @@ function createProductURL(callback){
         chr = Math.floor(Math.random()*(10)).toString();
       else
         // or a random char from A to Z
-        chr = String.fromCharCode(Math.floor(
-            Math.random()*(ASCII_Z-ASCII_A+1)+ASCII_A));
+        chr = String.fromCharCode(
+            Math.floor(Math.random()*(ASCII_Z-ASCII_A+1)+ASCII_A));
 
       id+=chr;
     }

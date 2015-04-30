@@ -9,7 +9,7 @@ var express     = config.modules.express,
     mongoose    = config.modules.mongoose,
     _           = config.modules.lodash,
     bodyparser  = config.modules.bodyparser,
-    scraper     = require('../scraper/scraper/scraper');
+    scraper     = require('../scraper/scraper');
 
 var app = express();
 
