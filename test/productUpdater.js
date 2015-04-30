@@ -1,6 +1,6 @@
 var should = require('chai').should(),
-    arrayStream = require('arraystream'),
-    child = require('child_process');
+    arrayStream = require('arraystream');
+    updater = require('../scraper/productUpdater.js');
 
 var productsList = [];
 productsList.push(
@@ -21,45 +21,29 @@ productsList.push(
 );
 
 var numProducts = productsList.length,
-    updatedAll = false,
-    manager;
+    timesUpdated = 0;
 
-describe('#manager tests', function() {
-    this.timeout(60000);
+describe('#updater tests', function() {
+    this.timeout(30000);
 
     before(function(done){
-        manager = child.fork('./scraperManager')
-
-        manager.on('message', function(data){
-            if(data.type === 'update'){
-                productStream.resume();
-            }
-
-            if(data.type === 'updateErr'){
-                productStream.resume();
-            }
-
-            if(updatedAll){
-                manager.kill('SIGINT');
-                done();
-            }
-        });
-
         productStream = arrayStream.create(productsList);
 
         productStream.on('data', function(product, key){
             productStream.pause();
 
-            manager.send(
-                {
-                    "type" : "product",
-                    "asin" : product.asin
+            updater.update(product.asin, function(err, product){
+                if(!err){
+                    timesUpdated++;
+                    productStream.resume();
+                }else{
+                    throw(err);
                 }
-            );
+            });
         });
 
         productStream.on('end', function(){
-            updatedAll = true;
+            done();
         });
 
         productStream.on('error', function(err){
@@ -67,8 +51,8 @@ describe('#manager tests', function() {
         });
     });
 
-    it('manager forked, passed messages and closed properly', function(){
-
+    it('updated the products' , function() {
+        timesUpdated.should.equal(numProducts);
     });
 });
 

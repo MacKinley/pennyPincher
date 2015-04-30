@@ -14,7 +14,7 @@ MongoClient.connect(url, function(err, db) {
   // I suppose this doesn't really need to be a child process
   // if its not part of the server but the event listeners below will be
   // turned into callbacks and parameter if statements
-  var manager = child.fork('./scraperManager');
+  var manager = child.fork('./scraper/scraperManager');
 
   var updatingProduct;
 

@@ -1,5 +1,5 @@
 var should = require('chai').should(),
-    discoverer = require('../productDiscoverer.js');
+    discoverer = require('../scraper/productDiscoverer.js');
 
 describe('#discoverer tests', function() {
     var product, timesLooped = 0;

@@ -1,5 +1,5 @@
 var should = require('chai').should(),
-    scrape = require('../scraper.js').scrape;
+    scrape = require('../scraper/scraper.js').scrape;
 
 describe('scraper', function() {
     var staticResponse, liveResponse, didCatchErr;
