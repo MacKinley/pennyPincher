@@ -27,6 +27,7 @@ module.exports = {
       "timeout": 60000
     },
     function(err, response, html){
+      clearTimeout(timeout);
       if(!err){
         console.log("recieved url: "+url);
         try{
