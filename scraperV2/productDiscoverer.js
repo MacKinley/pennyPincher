@@ -1,4 +1,4 @@
-var scrape = require('../scraper/scraper').scrape;
+var scrape = require('./scraper').scrape;
 var Sequence = require('sequence').Sequence,
     sequence = Sequence.create();
 

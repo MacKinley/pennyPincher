@@ -1,4 +1,4 @@
-var scrape = require('../scraper/scraper').scrape;
+var scrape = require('./scraper').scrape;
 
 module.exports = {
   update: function(asin, callback){
