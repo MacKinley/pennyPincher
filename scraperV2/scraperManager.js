@@ -1,5 +1,5 @@
-var updater = require('../productUpdater/productUpdater'),
-    discoverer = require('../productDiscoverer/productDiscoverer');
+var updater = require('./productUpdater'),
+    discoverer = require('./productDiscoverer');
 
 var options = process.argv[2];
 
@@ -47,7 +47,7 @@ process.on('message', function(data){
       }else{
         console.log('Known product with asin '
             +data.asin+' failed to update');
-        console.log('error: 'err);
+        console.log('error: '+err);
         process.send(
           {
             "type": "updateErr"

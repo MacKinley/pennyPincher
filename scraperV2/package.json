@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "cheerio": "^0.19.0",
+    "mongodb": "^2.0.28",
+    "request": "^2.55.0",
+    "sequence": "^3.0.0"
+  },
+  "devDependencies": {
+    "arraystream": "0.0.5",
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1"
+  },
+  "scripts": {
+    "test": "make test"
+  }
+}
