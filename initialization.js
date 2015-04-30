@@ -195,6 +195,7 @@ var index_productConfig = function(){
     express: require('express'),
     lodash: require('lodash'),
     products: require('./product/products')(productConfig),
+    bodyparser: require('body-parser'),
     mongoose: require('mongoose'),
   };
 

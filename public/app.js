@@ -129,6 +129,15 @@ angular.module('app', ['ngRoute', 'ui.bootstrap',
       });
     };
 
+    this.scrapeUrl = function(url, callback){
+      $http.post(apiEndpoint + 'scrape/', {"url": url})
+      .success(function(data){
+        callback(data.err, data.asin);
+      }).error(function(data){
+        callback(data.err, null);
+      });
+    }
+
     this.searchByTitle = function(title, callback){
       $http.get(apiEndpoint + 'searchFor/' + title)
       .success(function(data){

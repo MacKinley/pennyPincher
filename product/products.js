@@ -1,8 +1,9 @@
 var Product = function(productConfig){
   var Product = productConfig.modules.schema.productModel,
-    mongoose = productConfig.modules.mongoose,
-    _ = productConfig.modules.lodash,
-    Promise   = productConfig.modules.promise;
+    mongoose  = productConfig.modules.mongoose,
+    _         = productConfig.modules.lodash,
+    Promise   = productConfig.modules.promise,
+    scraper   = require('../scraper/scraper/scraper');
 
   thresholds = {
     document: {
@@ -35,6 +36,43 @@ var Product = function(productConfig){
         }
       })
     });
+  };
+
+  methods.addNewProduct = function(product, callback){
+    Product.findOne(
+      {"asin": product.asin},
+      function(err, existingProduct){
+        if(err){
+          // err
+          console.log('err findingOne');
+          callback(err, null);
+        }else if(existingProduct === null){
+          console.log('creating new product');
+          var updateDate = new Date(product.date);
+          // add new product
+          var newProduct = new Product();
+          newProduct.asin = product.asin;
+          newProduct.title = product.title;
+          newProduct.price = product.price;
+          newProduct.image = product.img;
+          newProduct.created = updateDate;
+          newProduct.updated = updateDate;
+          newProduct.analytics = [{
+            "date": updateDate,
+            "price": product.price
+          }];
+
+          console.log('created saving');
+          newProduct.save(function(err){
+            console.log('saved callback time');
+            callback(err, newProduct);
+          });
+        }else{
+          // don't do anything for now
+          console.log('already exists');
+        }
+      }
+    );
   };
 
   methods.getProductsWithTitle = function(productTitle){

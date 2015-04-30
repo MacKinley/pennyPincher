@@ -66,11 +66,24 @@ angular.module('productSearch', [])
     };
   }
 ])
-.controller('SearchBar',['$scope', '$location',
-  function($scope, $location){
+.controller('SearchBar',['$scope', '$location', 'ProductService',
+  function($scope, $location, ProductService){
+
     $scope.searchInput;
     $scope.search = function(){
-      $location.path('/search/' + $scope.searchInput);
+      if($scope.searchInput.match(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g)){
+        console.log('is url');
+        // scrape it!
+        ProductService.scrapeUrl($scope.searchInput, function(err, asin){
+          if(!err){
+            $location.path('/product/' + asin);
+          }else{
+            console.log(err);
+          }
+        });
+      }else{
+        $location.path('/search/' + $scope.searchInput);
+      }
     };
   }
 ]);

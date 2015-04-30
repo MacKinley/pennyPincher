@@ -58,6 +58,7 @@ angular.module('productDetail', ['n3-line-chart'])
       }
     };
 
+    $scope.graphPrices = [];
     // get product from db on page load
     ProductService.getProduct($routeParams.asin, function(err, response){
       if(err){
@@ -67,11 +68,23 @@ angular.module('productDetail', ['n3-line-chart'])
         $scope.product.analytics.forEach(function(element, index, array){
           array[index].date = new Date(element.date);
         });
+
+        // if only 1 price logged add another analytics obj
+        // with a timestamp of + 1 second so graph still shows
+        if($scope.product.analytics.length == 1){
+          var fakeDate = new Date($scope.product.analytics[0].date.getTime());
+          fakeDate.setSeconds(fakeDate.getSeconds()+1)
+          $scope.product.analytics.push({
+            "date": fakeDate,
+            "price": $scope.product.analytics[0].price
+          });
+        }
+
         $scope.graphPrices = $scope.product.analytics;
+        console.log($scope.graphPrices);
       }
     });
 
-    $scope.graphPrices = [];
     $scope.graphOptions = {
       lineMode: "linear",
       tension: 1,

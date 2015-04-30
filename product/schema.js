@@ -3,7 +3,8 @@ var productSchema = function(){
       Schema = mongoose.Schema;
 
   var analytics = [{
-    updated: {type: Date},
+    _id: false,
+    date: {type: Date},
     price: {type: Number}
   }];
 
