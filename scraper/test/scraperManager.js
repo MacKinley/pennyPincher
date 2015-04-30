@@ -35,6 +35,10 @@ describe('#manager tests', function() {
                 productStream.resume();
             }
 
+            if(data.type === 'updateErr'){
+                productStream.resume();
+            }
+
             if(updatedAll){
                 manager.kill('SIGINT');
                 done();
