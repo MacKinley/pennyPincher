@@ -18,6 +18,8 @@ var getConfiguration = function(configType){
     return new index_productConfig();
     case 'index_userConfig':
     return new index_userConfig();
+    case 'mongooseConnection':
+    return mongooseConnection;
   }
 };
 
@@ -141,7 +143,7 @@ var index_userConfig = function() {
   };
   this.facebook = {
     appId: '1594707767440171',
-    appSecret: '601dc1eff17354e92929d81ab65523ad',
+    appSecret: 'insertsecret!',
     routing: {
       appRouter: '/user/authenticate/facebook',
       appCallback: 'http://localhost:3000'+'/auth/facebook/callback',  //This needs to be adaptive
@@ -201,9 +203,13 @@ var index_productConfig = function(){
 
 };
 
-var mongoConfig = function(){
-
+var mongoConfig = {
+  mongoRoot: "localhost:27017/pennyPincher",
+  mongoUser: "mongoose",
+  mongoPwd: "passwordgoeshere",
+  uri: function() {return 'mongodb://'+this.mongoUser+':'+this.mongoPwd+'@'+this.mongoRoot;}
 };
+var mongooseConnection = require('mongoose').createConnection(mongoConfig.uri());
 
 module.exports = getConfiguration;
 

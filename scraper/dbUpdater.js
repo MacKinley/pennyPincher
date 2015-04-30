@@ -5,7 +5,7 @@ var productStream;
 var isStreaming = false;
 
 // Connection URL
-var url = 'mongodb://localhost:27017/pennyPincher';
+var url = 'mongodb://localUpdater:passwordgoeshere@localhost:27017/pennyPincher';
 // Use connect method to connect to the Server
 MongoClient.connect(url, function(err, db) {
   var collection = db.collection('products');

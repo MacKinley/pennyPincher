@@ -1,4 +1,5 @@
 var productSchema = function(){
+  var db = require('../initialization')('mongooseConnection');
   var mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
@@ -20,7 +21,6 @@ var productSchema = function(){
 
   this.schema.index({title: 'text'});
 
-  var db = mongoose.createConnection('mongodb://localhost:27017/pennyPincher');
   this.productModel = db.model('products', this.schema);
 };
 
