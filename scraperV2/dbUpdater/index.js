@@ -33,8 +33,8 @@ MongoClient.connect(url, function(err, db) {
       console.log(((new Date()).toString())+"got from db: "+updatingProduct.asin);
       updatingProduct.analytics = updatingProduct.analytics.sort(
         function(price1, price2) {
-          return new Date(price1.updated).getTime() -
-        new Date(price2.updated).getTime();
+          return new Date(price1.date).getTime() -
+                  new Date(price2.date).getTime();
         });
 
       // tell scraper to update it
@@ -42,7 +42,7 @@ MongoClient.connect(url, function(err, db) {
       manager.send(
         {
           "type" : "product",
-        "asin" : product.asin
+          "asin" : product.asin
         }
         );
     });
@@ -52,9 +52,9 @@ MongoClient.connect(url, function(err, db) {
       isStreaming = false;
       // start the stream again
       setTimeout(function(){
-        console.log(((new Date()).toString())+'starting db stream again');
+        console.log(((new Date()).toString())+'starting db stream again in 30 mins');
         getdbStream();
-      },360000);
+      },720000);
     });
   }
 
@@ -125,18 +125,18 @@ MongoClient.connect(url, function(err, db) {
             "created": new Date(product.date),
             "updated": new Date(product.date),
             "analytics": [{
-              "updated":new Date(product.date),
-            "price": product.price
+              "date":new Date(product.date),
+              "price": product.price
             }]
           });
         }
       });
     }else if(data.type === 'updateErr'){
-      console.log(((new Date()).toString())+"update Err. resuming product stream");
+      console.log(((new Date()).toString())+"update Err. resuming product stream in 60 secs");
       // then resume the stream again
       setTimeout(function(){
         productStream.resume();
-      },30000);
+      },60000);
     }
   });
 

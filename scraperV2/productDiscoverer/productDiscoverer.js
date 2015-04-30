@@ -5,39 +5,39 @@ var Sequence = require('sequence').Sequence,
 var stopped = true;
 
 module.exports = {
-    // call once to continue discovering new products
-    discoveryLoop: function(pauseLength, callback){
-        stopped = false;
-        discoveryHelper(pauseLength, callback);
-    },
+  // call once to continue discovering new products
+  discoveryLoop: function(pauseLength, callback){
+    stopped = false;
+    discoveryHelper(pauseLength, callback);
+  },
 
-    stopDiscovering: function(callback){
-        stopped = true;
-        if(callback != null)
-            callback();
-    }
+  stopDiscovering: function(callback){
+    stopped = true;
+    if(callback != null)
+      callback();
+  }
 };
 
 function discoveryHelper(pauseLength, callback){
-    var recursiveCB = function(err, response){
-        sequence
-            .then(function(next){
-                callback(err, response, next);
-            })
-            .then(function(next){
-            discoveryHelper(pauseLength, callback);
-                next();
-            });
-    };
+  var recursiveCB = function(err, response){
+    sequence
+      .then(function(next){
+        callback(err, response, next);
+      })
+    .then(function(next){
+      discoveryHelper(pauseLength, callback);
+      next();
+    });
+  };
 
-    if(!stopped){
-        setTimeout(function(){
-            createProductURL(function(url){
-                console.log((new Date()).toString() + "discovering at: "+url);
-                scrape(url, recursiveCB);
-            });
-        }, pauseLength);
-    }
+  if(!stopped){
+    setTimeout(function(){
+      createProductURL(function(url){
+        console.log((new Date()).toString() + "discovering at: "+url);
+        scrape(url, recursiveCB);
+      });
+    }, pauseLength);
+  }
 }
 
 function createProductURL(callback){
@@ -69,8 +69,8 @@ function createProductURL(callback){
         chr = Math.floor(Math.random()*(10)).toString();
       else
         // or a random char from A to Z
-        chr = String.fromCharCode(Math.floor(
-            Math.random()*(ASCII_Z-ASCII_A+1)+ASCII_A));
+        chr = String.fromCharCode(
+            Math.floor(Math.random()*(ASCII_Z-ASCII_A+1)+ASCII_A));
 
       id+=chr;
     }
