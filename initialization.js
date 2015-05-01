@@ -206,7 +206,7 @@ var index_productConfig = function(){
 var mongoConfig = {
   mongoRoot: "localhost:27017/pennyPincher",
   mongoUser: "mongoose",
-  mongoPwd: "passwordgoeshere",
+  mongoPwd: "insertpasswordhere",
   uri: function() {return 'mongodb://'+this.mongoUser+':'+this.mongoPwd+'@'+this.mongoRoot;}
 };
 var mongooseConnection = require('mongoose').createConnection(mongoConfig.uri());

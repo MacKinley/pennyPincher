@@ -29,6 +29,7 @@ module.exports = {
   },
 
   sendMail : function(product, users, callback){
+    console.log('emailer: '+users);
     createMailOption(product, users, function(mailOpt){
       transport.sendMail(mailOpt, function(err, response){
         if(callback != null){
@@ -63,8 +64,8 @@ function createMailOption(product, users, callback) {
     to: 'Recipient',
     bcc: send,
     subject: 'Penny Pinchers Update on Subscription',
-    text: 'Check out the new price on this item, ' + product.title + ' now ' +
-      product.price + ' also this is a test.'
+    text: 'Check out the new price on your subscribed ' + product.title +
+      '\nnow at ' + product.price
   };
 
   callback(mailOpt);

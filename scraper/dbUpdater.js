@@ -1,14 +1,16 @@
 var MongoClient = require('mongodb').MongoClient,
-    child = require('child_process');
+    child = require('child_process'),
+    emailer = require('../emailer');
 
 var productStream;
 var isStreaming = false;
 
 // Connection URL
-var url = 'mongodb://localUpdater:passwordgoeshere@localhost:27017/pennyPincher';
+var url = 'mongodb://localUpdater:insertpasswordhere@localhost:27017/pennyPincher';
 // Use connect method to connect to the Server
 MongoClient.connect(url, function(err, db) {
   var collection = db.collection('products');
+  var users = db.collection('users');
 
   // location of scraper here
   // I suppose this doesn't really need to be a child process
@@ -61,6 +63,10 @@ MongoClient.connect(url, function(err, db) {
   // listen for messages from scraper
   manager.on('message', function(data){
     var product = data.product;
+    var subscribedUsers = null;
+    var subscriberEmails = [];
+    var priceDropped = false;
+
     console.log(((new Date()).toString())+"got from scraper "+data.type);
     // when we get a product
     if(data.type === 'update'){
@@ -72,6 +78,13 @@ MongoClient.connect(url, function(err, db) {
           "date": new Date(product.date),
           "price": product.price
         });
+
+        // if price dropped
+        if(product.price <
+            updatingProduct.analytics[updatingProduct.analytics.length-1].price){
+          priceDropped = true;
+        }
+
         updatingProduct.price = product.price;
         updatingProduct.updated = new Date(product.date);
       }else{
@@ -92,12 +105,41 @@ MongoClient.connect(url, function(err, db) {
           updatingProduct.updated = new Date(product.date);
         }
       }
+
       // add updated product to db
       console.log(((new Date()).toString())+"inserting into db asin: "+product.asin);
       collection.update(
-          {"asin": product.asin},
-          updatingProduct 
-          );
+        {"asin": product.asin},
+        updatingProduct
+      );
+
+      if(priceDropped){
+        var length = 0;
+        subscribedUsers = users.find(
+          {"local.products": {$in: [product.asin]}})
+        .toArray(function(err, users){
+          users.forEach(function(user){
+            length++;
+            if(user.local.verified){
+              subscriberEmails.push(user.local.email);
+            }
+            if(length == users.length && subscriberEmails.length > 0){
+              emailer.sendMail(updatingProduct, subscriberEmails,
+                function(err, response){
+                  if(!err){
+                    console.log('subscriber emails sent');
+                  }else{
+                    console.log(err);
+                  }
+                }
+              );
+            }
+          });
+        });
+      }else{
+        console.log('price did not drop');
+      }
+
       process.nextTick(function(){
         if(isStreaming){
           console.log(((new Date()).toString())+"resuming product stream in 30secs");

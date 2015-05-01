@@ -20,7 +20,7 @@ module.exports = {
     var timeout = setTimeout(function(){
       console.log('request timed out');
       callback('timeout', null);
-    }, 61000);
+    }, 65000);
 
     request({
       "uri": url,
