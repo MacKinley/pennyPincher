@@ -23,7 +23,7 @@ require('./login')(passport);
   });
 
   passport.deserializeUser(function(id, done){
-    User.findOne(id, function(err, user){
+    User.findById(id, function(err, user){
       done(err, user);
     });
   });

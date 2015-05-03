@@ -17,6 +17,7 @@ module.exports = function(passport){
               type: false,
               data: "Error" + err
             });
+            done(err, false);
           }else{
             // If not the correct user email
             if(!user){
@@ -24,11 +25,12 @@ module.exports = function(passport){
               return done(null, false);
             // Password validation
             }else{
+              console.log('found user: '+ user);
               if(!UserSchema.validation(password, user.local.password)){
                 console.log("bad password");
                 return done(null, false);
               }else{
-                console.log("successful login");
+                console.log("successful login "+user.local.email);
                 return done(null, user);
               }
             }

@@ -51,10 +51,11 @@ MongoClient.connect(url, function(err, db) {
 
     productStream.on("end", function(){
       console.log(((new Date()).toString())+"end of products stream");
+      console.log(((new Date()).toString())+'starting db stream again in 30 mins');
       isStreaming = false;
       // start the stream again
       setTimeout(function(){
-        console.log(((new Date()).toString())+'starting db stream again in 30 mins');
+        console.log('starting stream again');
         getdbStream();
       },720000);
     });
