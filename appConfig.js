@@ -3,6 +3,6 @@ module.exports = {
   "publicDir"     : __dirname + "/public/",
   "frontendApp"   : "index.html",
   "notFoundRes"   : "Not Found",
-  "sessionSecret" : "doesnteveryonelovenobody"
+  "sessionSecret" : "insertsomerandomtexthere"
 };
 
