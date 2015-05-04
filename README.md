@@ -16,8 +16,8 @@ npm install
 bower install
 ```
 
-Edit the final lines of initialization.js and the earliest lines of scaper/dbUpdater.js by replacing:
-* "passwordgoeshere"
+Edit dbConnection.js and scaper/dbUpdater.js by replacing:
+* "insertpasswordhere"
 *  with the password
 
 *** There is no live DB at the moment so the above lines may also have to be edited so they connect to a db ***
