@@ -10,7 +10,7 @@
 ## Installation
 
 ```
-git clone https://github.com/micman52/pennyPincher.git
+git clone https://github.com/mackinley/pennyPincher.git
 cd pennyPincher
 npm install
 bower install
@@ -19,6 +19,10 @@ bower install
 Edit dbConnection.js and scaper/dbUpdater.js by replacing:
 * "insertpasswordhere"
 *  with the password
+
+Edit secretSession field of appConfig by replacing:
+* "insertsomerandomtexthere"
+*  with some random text
 
 *** There is no live DB at the moment so the above lines may also have to be edited so they connect to a db ***
 
