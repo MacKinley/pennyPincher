@@ -1,10 +1,8 @@
-var config = require('../initialization')('index_userConfig'),
-
-  local = require('passport-local').Strategy,
-  random = require('randomstring'),
-  UserSchema = config.modules.userModel,
-  User = config.modules.userModel.userModel
-  emailer = require('../emailer');
+var local = require('passport-local').Strategy,
+    random = require('randomstring'),
+    UserSchema = require('./schema'),
+    User = UserSchema.userModel,
+    emailer = require('../emailer');
 
 module.exports = function(passport){
 

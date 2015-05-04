@@ -1,5 +1,6 @@
 var productSchema = function(){
-  var db = require('../initialization')('mongooseConnection');
+  var db = require('../dbConnection');
+
   var mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 

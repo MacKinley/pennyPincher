@@ -1,20 +1,10 @@
 var userSchema = function() {
-  var db = require('../initialization')('mongooseConnection');
-  var mongoose = require('mongoose'),
-      Schema = mongoose.Schema;
-  var bcrypt = require('bcrypt-nodejs');
+  var db = require('../dbConnection');
 
-  /*var local = {
-    displayName: {type: String},
-    email: {type: String},
-    password: {type: String},
-    lastLogin: {type: Date},
-    products: {type: products},
-    active: {type: Boolean}
-  };*/
-  var google = {
-    id: {type: String}
-  };
+  var mongoose = require('mongoose'),
+      Schema = mongoose.Schema,
+      bcrypt = require('bcrypt-nodejs');
+
   var facebook = {
     id: {type: String},
     token: {type: String},
@@ -33,7 +23,6 @@ var userSchema = function() {
       verified: {type: Boolean, default: false},
       active: {type: Boolean}
     },
-    google: {type: google},
     facebook: {type: facebook}
   });
 

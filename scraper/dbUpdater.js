@@ -1,3 +1,5 @@
+// Sorry to anybody who must work with this MEGA HACK!!!!!
+
 var MongoClient = require('mongodb').MongoClient,
     child = require('child_process'),
     emailer = require('../emailer');
@@ -13,9 +15,6 @@ MongoClient.connect(url, function(err, db) {
   var users = db.collection('users');
 
   // location of scraper here
-  // I suppose this doesn't really need to be a child process
-  // if its not part of the server but the event listeners below will be
-  // turned into callbacks and parameter if statements
   var manager = child.fork('./scraper/scraperManager');
 
   var updatingProduct;
@@ -46,7 +45,7 @@ MongoClient.connect(url, function(err, db) {
           "type" : "product",
           "asin" : product.asin
         }
-        );
+      );
     });
 
     productStream.on("end", function(){
@@ -57,7 +56,7 @@ MongoClient.connect(url, function(err, db) {
       setTimeout(function(){
         console.log('starting stream again');
         getdbStream();
-      },720000);
+      },1800000);
     });
   }
 
@@ -81,8 +80,8 @@ MongoClient.connect(url, function(err, db) {
         });
 
         // if price dropped
-        if(product.price <
-            updatingProduct.analytics[updatingProduct.analytics.length-1].price){
+        if(product.price < updatingProduct.price){
+          console.log('price dropped');
           priceDropped = true;
         }
 
@@ -175,11 +174,15 @@ MongoClient.connect(url, function(err, db) {
         }
       });
     }else if(data.type === 'updateErr'){
-      console.log(((new Date()).toString())+"update Err. resuming product stream in 60 secs");
-      // then resume the stream again
-      setTimeout(function(){
-        productStream.resume();
-      },60000);
+      if(isStreaming){
+        console.log(((new Date()).toString())+"update Err. resuming product stream in 60 secs");
+        // then resume the stream again
+        setTimeout(function(){
+          productStream.resume();
+        },60000);
+      }else{
+        console.log('got updateErr but not resuming since end of stream');
+      }
     }
   });
 

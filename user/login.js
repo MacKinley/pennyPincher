@@ -1,7 +1,6 @@
-var config = require('../initialization')('index_userConfig'),
-    local = require('passport-local').Strategy,
-    UserSchema = config.modules.userModel,
-    User = config.modules.userModel.userModel;
+var local = require('passport-local').Strategy,
+    UserSchema = require('./schema'),
+    User = UserSchema.userModel;
 
 module.exports = function(passport){
   passport.use('local-login', new local({

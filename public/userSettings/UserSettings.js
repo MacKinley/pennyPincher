@@ -13,6 +13,7 @@ angular.module('userSettings', [])
     $scope.products = [];
 
     // get all user data on page load
+    // TODO do this with only 1 query and exclude analytics field
     UserStorage.info.local.products.forEach(function(asin, index, array){
       ProductService.getProduct(asin, function(err, response){
         if(err){
